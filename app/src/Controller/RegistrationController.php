@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Users;
 use App\Form\RegistrationForm;
 use App\Service\EmailService;
+use App\Service\JWTService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +23,8 @@ class RegistrationController extends AbstractController
                              UserPasswordHasherInterface $userPasswordHasher,
                              EntityManagerInterface $entityManager,
                              Security $security,
-                             EmailService $emailService)
+                             EmailService $emailService,
+                             JWTService $JWTService)
     : Response
     {
 
@@ -43,19 +45,39 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // Connection automatique avec Security
-            $security->login($user);
+            //$security->login($user);
+
+            //header Structuration du token
+            $header= [
+                'typ' => 'JWT',
+                'alg' => 'HS256',
+            ];
+
+            //payload
+            $payload = [
+                'user_id' => $user->getId(),
+            ];
+
+            //Générer le token
+            $token = $JWTService->generate($header, $payload,$this->getParameter('app.jwtsecret'));
+
 
             //On initialise le contexte
             $context = [
                 "username" => $user->getusername(),
             ];
-
-            $emailService->send('admin@lagroovebox.fr', $user->getEmail(), 'Bienvenue dans l\'Univers de la Groove Box', 'register', $context);
             //Envoi d'Email pour l'inscription utilisateur
+            $emailService->send(
+                'admin@lagroovebox.fr',
+                $user->getEmail(),
+                'Bienvenue dans l\'Univers de la Groove Box',
+                'register', $context);
+
 
             return $this->redirectToRoute('app_profile');
         }
 
+        $this->addFlash('danger', 'Votre lien est invalide ou a expiré');
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
