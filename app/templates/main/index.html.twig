@@ -1,20 +1,65 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
+{% block title %}Page d'accueil!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Page d'accueil</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/anais/OneDrive/Bureau/EEDN/Bases/ProjetPersoGrooveBox/app/src/Controller/MainController.php</code></li>
-        <li>Your template at <code>C:/Users/anais/OneDrive/Bureau/EEDN/Bases/ProjetPersoGrooveBox/app/templates/main/index.html.twig</code></li>
-    </ul>
+<div class="hero">
+    <img src="{{ asset('uploads/main/img_accueil.png') }}" alt="Image d'accueil" width="300px">
+    <h1>La groove box</h1>
+    <p>Ton espace 100% House Music</p>
+    <div class="carousel">
+        <article class="slide">
+            <div class="slide-content">
+                <img src="{{ asset('uploads/main/elrow_fest.jpg') }}" alt="Elrow Fest" width="300px">
+                <h2>Le festival Elrow débarque à Toulouse!</h2>
+            </div>
+        </article>
+        <article class="slide">
+            <div class="slide-content">
+                <img src="{{ asset('uploads/main/bb.png') }}" alt="Image du dernier album deBoston Bun" width="300px">
+                <h2>Boston Bun dévoile son sublime deuxième album "MIXED FEELING"</h2>
+            </div>
+        </article>
+        <article class="slide">
+            <div class="slide-content">
+                <img src="{{ asset('uploads/main/swales.jpg') }}" alt="Image d'album de Swales" width="300px">
+                <h2>Swales : L'ascension fulgurante d'un prodige de la house music</h2>
+            </div>
+        </article>
+    </div>
 </div>
+    <section class="Coup de coeur">
+        <h2>Le coup de coeur de la semaine</h2>
+        <a href="#">Artiste</a>
+    </section>
+    <section class="btn-pad">
+        <h2>House Culture</h2>
+        <div class="btn-groove">
+            <a href="#" class="light-blue">House</a>
+            <a href="#" class="blue">Tech House</a>"
+            <a href="#" class="fushia">Deep House</a>
+            <a href="#" class="purple">Progressive House</a>
+            <a href="#" class="dark-violet">Soulful House</a>
+            <a href="#" class="dark">Minimal House</a>
+        </div>
+    </section>
+    <div class="contact">
+        <p>Tu souhaites nous faire découvrir un artiste ? N'hésite pas à nous faire des propositions!</p>
+
+        {# Traitement du formulaire de contact #}
+        {% for message in app.flashes('success') %}
+            <div class="alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {{ form_start(form) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.subject) }}
+        {{ form_row(form.agreeterms) }}
+        {{ form_row(form.submit) }}
+        {{ form_end(form) }}
+
+    </div>
 {% endblock %}

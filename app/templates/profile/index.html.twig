@@ -1,20 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfileController!{% endblock %}
+{% block title %}Profil{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/faq.js') }}" defer></script>
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div>
+        <h1 class="profil-title">Mon Profil</h1>
 
-<div class="example-wrapper">
-    <h1>Bienvenue Utilisateur!</h1>
+        {# Section photo de profil #}
+        {% if user.avatar %}
+            <img src="{{ asset(user.avatar) }}" alt="Avatar de {{ user.username }}" width="150">
+        {% else %}
+            <p>Aucun avatar défini</p>
+        {% endif %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/anais/OneDrive/Bureau/EEDN/Bases/ProjetPersoGrooveBox/app/src/Controller/ProfileController.php</code></li>
-        <li>Your template at <code>C:/Users/anais/OneDrive/Bureau/EEDN/Bases/ProjetPersoGrooveBox/app/templates/profile/index.html.twig</code></li>
-    </ul>
-</div>
+        {# Section liens utiles #}
+        <section>
+            <h2>Let's Go!</h2>
+            <ul>
+                <li><a href="{{ path('app_main') }}">Mes favoris</a></li>
+                <li><a href="{{ path('app_main') }}">Mes playlists</a></li>
+            </ul>
+        </section>
+
+        {# Section faq #}
+        <!-- Section FAQ avec accordéons interactifs -->
+        <section id="faq" class="faq">
+            <h2>Foire Aux Questions (FAQ)</h2>
+            <!-- Conteneur accordéon -->
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Comment changer mon mot de passe ?</button>
+                    <div class="accordion-content">
+                        <p>Tu peux changer ton mot de passe depuis l'onglet "Paramètres du compte", en cliquant sur "Modifier le mot de passe".</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">Comment nous contacter ?</button>
+                    <div class="accordion-content">
+                        <p>Tu peux nous contacter via le formulaire de contact, accessible depuis le pied de page d'accueil.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">Mes données sont-elles protégées ?</button>
+                    <div class="accordion-content">
+                        <p>Oui, tes données sont stockées de façon sécurisée. Nous respectons les normes RGPD en vigueur.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 {% endblock %}

@@ -67,6 +67,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Soundtracks::class, inversedBy: 'users')]
     private Collection $favorite_soundtracks;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $avatar = 'uploads/avatars/default-avatar.png'; //Modifier ici
+
 
     public function __construct()
     {
@@ -75,6 +78,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->playlists = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->favorite_soundtracks = new ArrayCollection();
+
     }
 
 
@@ -281,6 +285,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeFavoriteSoundtrack(Soundtracks $favoriteSoundtrack): static
     {
         $this->favorite_soundtracks->removeElement($favoriteSoundtrack);
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): static
+    {
+        $this->avatar = $avatar ?? 'uploads/avatars/default-avatar.png';
 
         return $this;
     }

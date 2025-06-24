@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Posts index{% endblock %}
+
+{% block body %}
+    <h1>Actu'</h1>
+    <p>
+        Plongez dans l'univers dynamique de la house music, entre actualités et tendances.
+    </p>
+    <div>
+        {% for post in posts %}
+            <div>
+                {% if post.coverImage %}
+                    <img src="{{ asset('uploads/posts/' ~ post.coverImage) }}" alt="{{ post.title }}" width="200">
+                {% else %}
+                    <p>Pas d'image</p>
+                {% endif %}
+
+                <h2>{{ post.title }}</h2>
+
+                <a href="{{ path('app_posts_show', {'id': post.id}) }}">Voir plus</a>
+            </div>
+        {% else %}
+            <p>Aucun post trouvé.</p>
+        {% endfor %}
+    </div>
+
+    <p>Envie de nous faire découvrir un artiste ? Envoi nous un mail via le formulaire de contact sur notre page d'accueil, juste<a href="{{ path('app_main') }}">ICI</a></p>
+{% endblock %}

@@ -1,0 +1,28 @@
+{# Affichage post individuel #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block body %}
+    <h1>{{ post.title }}</h1>
+
+    {% if post.coverImage %}
+        <img src="{{ asset('uploads/posts/' ~ post.coverImage) }}" alt="{{ post.title }}" width="500">
+    {% endif %}
+
+    <div>
+        <ul>
+            {% for line in post.content|split('\n') %}
+                {% if '-' in line %}
+                    {% set parts = line|split('-') %}
+                    <li>{{ parts[0]|trim }} : <strong>{{ parts[1]|trim }}</strong></li>
+                {% else %}
+                    <li>{{ line }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+
+    <a href="{{ path('app_posts_index') }}">← Retour aux articles</a>
+{% endblock %}
+

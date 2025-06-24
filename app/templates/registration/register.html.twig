@@ -3,7 +3,7 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <h1>Inscription</h1>
 
     {{ form_errors(registrationForm) }}
 
@@ -15,15 +15,12 @@
             {{ form_row(registrationForm.email) }}
         </div>
         <div>
-            {{ form_row(registrationForm.plainPassword, {
-                label: 'Password'
-            })
-            }}
+            {{ form_row(registrationForm.plainPassword) }}
         </div>
         <div>
             {{ form_row(registrationForm.agreeTerms) }}
         </div>
-        <button type="submit" class="btn">Register</button>
+        <button type="submit" class="btn">M'inscrire</button>
     {{ form_end(registrationForm) }}
-    <p>Deja inscrit ? <a href="{{ path('app_login') }}">Me connecter</a></p>
+    <p>Déjà inscrit ? <a href="{{ path('app_login') }}">Me connecter</a></p>
 {% endblock %}
