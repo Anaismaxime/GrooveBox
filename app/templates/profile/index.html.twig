@@ -7,22 +7,23 @@
 {% endblock %}
 
 {% block body %}
-    <div>
+    <div class="main-profil">
         <h1 class="profil-title">Mon Profil</h1>
 
         {# Section photo de profil #}
         {% if user.avatar %}
-            <img src="{{ asset(user.avatar) }}" alt="Avatar de {{ user.username }}" width="150">
+            <img class="avatar"
+                 src="{{ asset(user.avatar) }}" alt="Avatar de {{ user.username }}" width="200">
         {% else %}
             <p>Aucun avatar défini</p>
         {% endif %}
 
         {# Section liens utiles #}
-        <section>
+        <section class="profil-links">
             <h2>Let's Go!</h2>
-            <ul>
-                <li><a href="{{ path('app_main') }}">Mes favoris</a></li>
-                <li><a href="{{ path('app_main') }}">Mes playlists</a></li>
+            <ul class="btn-links">
+                <li><a class="blue" href="{{ path('app_main') }}">A lire plus tard</a></li>
+                <li><a class="pink" href="{{ path('app_main') }}">Mes playlists</a></li>
             </ul>
         </section>
 
