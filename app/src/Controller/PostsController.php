@@ -122,4 +122,30 @@ final class PostsController extends AbstractController
         // Redirige vers la liste après la suppression
         return $this->redirectToRoute('app_posts_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+
+    // Affiche uniquement les articles de type "Culture"
+    #[Route('/cultural', name: 'app_posts_culture', methods: ['GET'])]
+    public function cultural(PostsRepository $postsRepository): Response
+    {
+        $posts = $postsRepository->findBy(['type' => 'cultural']);
+
+        return $this->render('posts/index.html.twig', [
+            'posts' => $posts,
+        ]);
+    }
+
+    // Affiche uniquement les articles de type "Actualité"
+    #[Route('/news', name: 'app_posts_actualites', methods: ['GET'])]
+    public function news(PostsRepository $postsRepository): Response
+    {
+        $posts = $postsRepository->findBy(['type' => 'news']);
+
+        return $this->render('posts/index.html.twig', [
+            'posts' => $posts,
+        ]);
+    }
+
 }

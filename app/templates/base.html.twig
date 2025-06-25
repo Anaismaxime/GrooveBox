@@ -19,14 +19,14 @@
 
     </head>
     <body>
+        <div class="container">
+            {% include 'partials/navbar.html.twig' %}
 
-        {% include 'partials/navbar.html.twig' %}
-
-
-        {% block body %}
-        {% endblock %}
-
-        {% include 'partials/footer.html.twig' %}
-
+            <main>
+                {% block body %}
+                {% endblock %}
+            </main>
+            {% include 'partials/footer.html.twig' %}
+        <div>
     </body>
 </html>

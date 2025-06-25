@@ -5,11 +5,35 @@
 {% block title %}Ajouter un article{% endblock %}
 
 {% block body %}
-    <h1>Ajouter un Article</h1>
+<h1 class="titleNew">Ajouter un Article</h1>
 
+<div class="form-container">
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-    {{ form_end(form) }}
+    <div class="form-group">
+        {{ form_label(form.title) }}
+        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+    </div>
 
-    <a href="{{ path('app_posts_index') }}">Retour</a>
-{% endblock %}
+    <div class="form-group">
+        {{ form_label(form.content) }}
+        {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.type) }}
+        {{ form_widget(form.type, {'attr': {'class': 'form-select'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.coverImage) }}
+        {{ form_widget(form.coverImage) }}
+    </div>
+
+    <div class="form-submit">
+        {{ form_widget(form.submit, {'attr': {'class': 'btn-black'}}) }}
+    </div>
+    {{ form_end(form) }}
+    <a href="{{ path('app_posts_index') }}" class="btn-return">Retour</a>
+</div>
+
+    {% endblock %}

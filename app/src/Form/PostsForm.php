@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Posts;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -30,6 +31,14 @@ class PostsForm extends AbstractType
                         mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
                         mimeTypesMessage : 'Seuls les formats JPG, PNG et WEBP sont acceptés'
                     )
+                ]
+            ])
+            ->add('type', ChoiceType::class, [
+                'label'  => 'Type de Contenu',
+                'choices' => [
+                    '' => '',
+                    'Culture' => 'cultural',
+                    'Actualité' => 'news',
                 ]
             ])
             ->add('submit', SubmitType::class, [

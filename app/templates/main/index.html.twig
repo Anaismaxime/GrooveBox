@@ -5,43 +5,47 @@
 {% block body %}
 
 <div class="hero">
-    <img src="{{ asset('uploads/main/img_accueil.png') }}" alt="Image d'accueil" width="300px">
+    <img class="cover-image" src="{{ asset('uploads/main/img_accueil.png') }}" alt="Image d'accueil" width="300px">
     <h1>La groove box</h1>
     <p>Ton espace 100% House Music</p>
-    <div class="carousel">
-        <article class="slide">
-            <div class="slide-content">
-                <img src="{{ asset('uploads/main/elrow_fest.jpg') }}" alt="Elrow Fest" width="300px">
-                <h2>Le festival Elrow débarque à Toulouse!</h2>
-            </div>
-        </article>
-        <article class="slide">
-            <div class="slide-content">
-                <img src="{{ asset('uploads/main/bb.png') }}" alt="Image du dernier album deBoston Bun" width="300px">
-                <h2>Boston Bun dévoile son sublime deuxième album "MIXED FEELING"</h2>
-            </div>
-        </article>
-        <article class="slide">
-            <div class="slide-content">
-                <img src="{{ asset('uploads/main/swales.jpg') }}" alt="Image d'album de Swales" width="300px">
-                <h2>Swales : L'ascension fulgurante d'un prodige de la house music</h2>
-            </div>
-        </article>
+    <div class=carousel-container>
+        <div class="carousel">
+            <article class="slide">
+                <div class="slide-content">
+                    <img src="{{ asset('uploads/main/elrow_fest.jpg') }}" alt="Elrow Fest" width="300px">
+                    <h2>Le festival Elrow débarque à Toulouse!</h2>
+                </div>
+            </article>
+            <article class="slide">
+                <div class="slide-content">
+                    <img src="{{ asset('uploads/main/bb.png') }}" alt="Image du dernier album deBoston Bun" width="300px">
+                    <h2>Boston Bun dévoile son sublime deuxième album "MIXED FEELING"</h2>
+                </div>
+            </article>
+            <article class="slide">
+                <div class="slide-content">
+                    <img src="{{ asset('uploads/main/swales.jpg') }}" alt="Image d'album de Swales" width="300px">
+                    <h2>Swales : L'ascension fulgurante d'un prodige de la house music</h2>
+                </div>
+            </article>
+        </div>
     </div>
 </div>
-    <section class="Coup de coeur">
+
+
+    <section class="artiste-of-the-week">
         <h2>Le coup de coeur de la semaine</h2>
         <a href="#">Artiste</a>
     </section>
-    <section class="btn-pad">
+    <section class="links">
         <h2>House Culture</h2>
         <div class="btn-groove">
-            <a href="#" class="light-blue">House</a>
-            <a href="#" class="blue">Tech House</a>"
-            <a href="#" class="fushia">Deep House</a>
-            <a href="#" class="purple">Progressive House</a>
-            <a href="#" class="dark-violet">Soulful House</a>
-            <a href="#" class="dark">Minimal House</a>
+            <a href="#" class="green">House</a>
+            <a href="#" class="blue">Tech House</a>
+            <a href="#" class="purple">Deep House</a>
+            <a href="#" class="pink">Progressive House</a>
+            <a href="#" class="light-pink">Soulful House</a>
+            <a href="#" class="orange">Minimal House</a>
         </div>
     </section>
     <div class="contact">
@@ -54,12 +58,29 @@
             </div>
         {% endfor %}
 
-        {{ form_start(form) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.subject) }}
-        {{ form_row(form.agreeterms) }}
-        {{ form_row(form.submit) }}
-        {{ form_end(form) }}
+        <div class="home-form-container">
+            {{ form_start(form) }}
+
+            <div class="form-group">
+                {{ form_label(form.email) }}
+                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.subject) }}
+                {{ form_widget(form.subject, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group-checkbox">
+                {{ form_row(form.agreeterms) }}
+            </div>
+
+            <div class="form-submit">
+                {{ form_widget(form.submit, {'attr': {'class': 'btn-black'}}) }}
+            </div>
+
+            {{ form_end(form) }}
+        </div>
 
     </div>
 {% endblock %}

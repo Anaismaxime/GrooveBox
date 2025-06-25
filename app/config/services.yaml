@@ -5,7 +5,9 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     app.jwtsecret: "%env(JWT_SECRET)%" #Quand je l'appel dans env, il devra aller chercher ce parametre
-    uploads_directory : "%kernel.project_dir%/public/uploads/posts" #Chemin pour image
+    #artists_pictures_directory: "%kernel.project_dir%/public/uploads/artists"
+    uploads_directory : "%kernel.project_dir%/public/uploads/posts" #Chemin pour image articles
+
 
 services:
     # default configuration for services in *this* file
