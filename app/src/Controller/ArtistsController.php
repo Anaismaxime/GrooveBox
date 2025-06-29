@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/artists')]
+#[Route('/artiste')]
 final class ArtistsController extends AbstractController
 {
     #[Route(name: 'app_artists_index', methods: ['GET'])]
@@ -23,7 +23,7 @@ final class ArtistsController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_artists_new', methods: ['GET', 'POST'])]
+    #[Route('/ajouter', name: 'app_artists_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $artist = new Artists();
@@ -37,7 +37,7 @@ final class ArtistsController extends AbstractController
                 $originalName = pathinfo($picture->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeName = strtolower($slugger->slug($originalName));
                 $newName = $safeName . '-' . uniqid() . '.' . $picture->guessExtension();
-                $destination =$this->getParameter('uploads_directory');
+                $destination =$this->getParameter('artists_pictures_directory');
                 $picture->move($destination, $newName);
                 $artist->setPicture($newName);
             }
@@ -62,7 +62,7 @@ final class ArtistsController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_artists_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/modifier', name: 'app_artists_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Artists $artist, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ArtistsForm::class, $artist);
@@ -80,7 +80,7 @@ final class ArtistsController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_artists_delete', methods: ['POST'])]
+    #[Route('/{id}/supprimer', name: 'app_artists_delete', methods: ['POST'])]
     public function delete(Request $request, Artists $artist, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$artist->getId(), $request->getPayload()->getString('_token'))) {

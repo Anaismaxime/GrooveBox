@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Politique de confidentialité{% endblock %}
+
+{% block body %}
+    <h1>Politique de confidentialité</h1>
+
+    <p>
+        Ce site utilise l’API officielle de Spotify pour afficher vos playlists.
+        Nous récupérons temporairement un jeton d’accès (access token) pour accéder à vos données musicales.
+        Ce token est stocké uniquement en mémoire pendant votre session de navigation, et n’est jamais enregistré en base de données.
+    </p>
+
+    <p>
+        Aucune donnée personnelle (email, nom, etc.) n’est collectée ou conservée par notre site.
+        Les contenus musicaux sont fournis et hébergés directement par Spotify via leur lecteur intégré (iframe).
+    </p>
+
+    <p>
+        Vous pouvez à tout moment vous déconnecter ou révoquer l'accès depuis votre compte Spotify.
+    </p>
+{% endblock %}

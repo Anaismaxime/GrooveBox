@@ -1,6 +1,6 @@
 <header class="navbar-mobile">
     <div class="burger" id="burger" >
-        <svg width="30" height="30">
+        <svg class="icon" width="30" height="30">
             <use href="{{ asset('assets/sprites.svg') }}#burger"></use>
         </svg>
     </div>
@@ -8,16 +8,29 @@
     <a class="logo" href="{{ path('app_main') }}">La Groove Box</a>
 
     <div class="sidebar" id="sidebar">
-        <button class="close-btn" id="closeSidebar">×</button>
+        <div class="close-btn" id="close-btn">
 
+        </div>
         <nav class="menu" id="menu">
-            <ul>
-                <li><a href="#">Un peu de Culture Musical</a></li>
-                <li><a href="{{ path('app_posts_index') }}">Actualités</a></li>
-                <li><a href="#">Évènements</a></li>
-                <li><a href="#">Côté Son</a></li>
-                <li><a href="{{ path('app_login') }}">Connexion/Déconnexion</a></li>
-            </ul>
+                <ul>
+                    <li><a href="{{ path('app_house_cultural') }}">Culture Musical</a></li>
+                    <li><a href="{{ path('app_posts_actualites') }}">Actualités</a></li>
+                    <li><a href="{{ path('playlist_index') }}">Playlists</a></li>
+                    <li><a href="{{ path('app_artists_index') }}">Artistes</a></li>
+                    <li><a href="#">Evenements</a></li>
+                    {% if app.user %}
+                        <li><a href="{{ path('app_profile') }}">Profil</a></li>
+                        <li><a href="#">Déconnexion</a></li>
+                    {% endif %}
+                </ul>
         </nav>
+    </div>
+
+    <div class="person" id="person">
+        <a href="{{ path('app_profile') }}" class="person-avatar">
+            <svg class="icon" width="30" height="30">
+                <use href="{{ asset('assets/sprites.svg') }}#icon"></use>
+            </svg>
+        </a>
     </div>
 </header>

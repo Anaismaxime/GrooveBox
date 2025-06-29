@@ -2,31 +2,61 @@
 
 namespace App\Controller;
 
+use App\Service\SpotifyApiService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class ProfileController extends AbstractController
 {
-    #[IsGranted('ROLE_USER')]
-    #[Route('/profile', name: 'app_profile')]
-    public function index(): Response
+    #[Route('/profil', name: 'app_profile')]
+    public function index(SpotifyApiService $spotifyApiService): Response
     {
         // Récupère l'utilisateur connecté
         $user = $this->getUser();
 
-        // Vérifie si l'utilisateur est connecté
         if (!$user) {
-            // Redirige vers la page de login si non connecté
             return $this->redirectToRoute('app_login');
         }
 
-        // Passe l'utilisateur à la vue Twig
+        // Récupère un token public d'accès à l'API Spotify
+        $accessToken = $spotifyApiService->getAppAccessToken();
+
+        // Crée un tableau pour stocker les playlists favorites complètes
+        $favoritePlaylists = [];
+
+        // Pour chaque ID de playlist stocké dans l'utilisateur
+        foreach ($user->getFavoritePlaylists() as $playlistId) {
+            // Appelle l'API Spotify pour récupérer les infos de la playlist
+            $favoritePlaylists[] = $spotifyApiService->getPlaylistById($playlistId, $accessToken);
+        }
+
+        // Envoie les données à la vue Twig
         return $this->render('profile/index.html.twig', [
             'user' => $user,
+            'favoritePlaylists' => $favoritePlaylists,
         ]);
     }
-    //Route pour modifier avartar Variable d'environnement qui contient mon chemin vers mes avatars
 
+    #[Route('/profil/playlists', name: 'profile_playlists')]
+    public function playlists(SpotifyApiService $spotifyApiService): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $accessToken = $spotifyApiService->getAppAccessToken(); // Récupère le token application
+        $favoritePlaylists = [];
+
+        foreach ($user->getFavoritePlaylists() as $playlistId) {
+            $favoritePlaylists[] = $spotifyApiService->getPlaylistById($playlistId, $accessToken);
+        }
+
+        return $this->render('profile/favorites.html.twig', [
+            'favoritePlaylists' => $favoritePlaylists,
+        ]);
+    }
 
 }

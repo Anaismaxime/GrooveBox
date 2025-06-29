@@ -11,8 +11,8 @@ RUN apt-get update \
 
 # Installation de la gestion des images
 RUN docker-php-ext-configure gd --with-freetype --with-webp --with-jpeg \
-    && docker-php-ext-configure gd \
-    && docker-php-ext-configure exif
+    && docker-php-ext-install gd \
+    && docker-php-ext-install exif
 
 RUN a2enmod rewrite && a2enmod socache_shmcb
 

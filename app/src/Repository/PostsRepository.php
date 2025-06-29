@@ -16,6 +16,27 @@ class PostsRepository extends ServiceEntityRepository
         parent::__construct($registry, Posts::class);
     }
 
+    public function findCulturalArticles(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.type = :type')
+            ->setParameter('type', 'cultural')
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findNewsArticles(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.type = :type')
+            ->setParameter('type', 'news')
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
     //    /**
     //     * @return Posts[] Returns an array of Posts objects
     //     */

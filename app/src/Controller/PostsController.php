@@ -25,7 +25,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 // Permet d'utiliser les attributs pour définir les routes
 
 // Contrôleur pour gérer les routes liées aux "posts"
-#[Route('/posts')]
+#[Route('/articles')]
 final class PostsController extends AbstractController
 {
     // Route pour afficher tous les posts (page d'accueil des articles)
@@ -39,7 +39,7 @@ final class PostsController extends AbstractController
     }
 
     // Route pour ajouter un nouvel article (affiche le formulaire + gère l'envoi)
-    #[Route('/new', name: 'app_posts_new', methods: ['GET', 'POST'])]
+    #[Route('/ajouter', name: 'app_posts_new', methods: ['GET', 'POST'])]
     public function add(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $post = new Posts(); // Crée un nouvel objet Post vide
@@ -79,6 +79,21 @@ final class PostsController extends AbstractController
         ]);
     }
 
+
+
+    // Affiche uniquement les articles de type "Actualité"
+    #[Route('/actualites', name: 'app_posts_actualites', methods: ['GET'])]
+    public function news(PostsRepository $postsRepository): Response
+    {
+        $posts = $postsRepository->findByType('news');
+
+        return $this->render('posts/index.html.twig', [
+            'posts' => $posts,
+        ]);
+    }
+
+
+
     // Route pour afficher un post individuel (détails d’un article)
     #[Route('/{id}', name: 'app_posts_show', methods: ['GET'])]
     public function show(Posts $post): Response
@@ -90,7 +105,7 @@ final class PostsController extends AbstractController
     }
 
     // Route pour modifier un article existant
-    #[Route('/{id}/edit', name: 'app_posts_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/modifier', name: 'app_posts_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Posts $post, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(PostsForm::class, $post); // Crée le formulaire avec les données du post existant
@@ -126,26 +141,6 @@ final class PostsController extends AbstractController
 
 
 
-    // Affiche uniquement les articles de type "Culture"
-    #[Route('/cultural', name: 'app_posts_culture', methods: ['GET'])]
-    public function cultural(PostsRepository $postsRepository): Response
-    {
-        $posts = $postsRepository->findBy(['type' => 'cultural']);
 
-        return $this->render('posts/index.html.twig', [
-            'posts' => $posts,
-        ]);
-    }
-
-    // Affiche uniquement les articles de type "Actualité"
-    #[Route('/news', name: 'app_posts_actualites', methods: ['GET'])]
-    public function news(PostsRepository $postsRepository): Response
-    {
-        $posts = $postsRepository->findBy(['type' => 'news']);
-
-        return $this->render('posts/index.html.twig', [
-            'posts' => $posts,
-        ]);
-    }
 
 }

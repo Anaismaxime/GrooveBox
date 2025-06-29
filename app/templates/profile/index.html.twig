@@ -9,7 +9,7 @@
 {% block body %}
     <div class="main-profil">
         <h1 class="profil-title">Mon Profil</h1>
-
+        <p>{{ app.user.username }}</p>
         {# Section photo de profil #}
         {% if user.avatar %}
             <img class="avatar"
@@ -23,9 +23,10 @@
             <h2>Let's Go!</h2>
             <ul class="btn-links">
                 <li><a class="blue" href="{{ path('app_main') }}">A lire plus tard</a></li>
-                <li><a class="pink" href="{{ path('app_main') }}">Mes playlists</a></li>
+                <li><a class="pink" href="{{ path('profile_playlists') }}">Mes playlists</a></li>
             </ul>
         </section>
+
 
         {# Section faq #}
         <!-- Section FAQ avec accordéons interactifs -->

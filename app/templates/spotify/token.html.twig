@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Token Spotify{% endblock %}
+
+{% block body %}
+    <h1>Token d'accès Spotify</h1>
+
+    <p><strong>Access Token :</strong> {{ access_token }}</p>
+    <p><strong>Refresh Token :</strong> {{ refresh_token }}</p>
+{% endblock %}

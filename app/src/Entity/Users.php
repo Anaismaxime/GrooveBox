@@ -70,6 +70,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatar = 'uploads/avatars/default-avatar.png'; //Modifier ici
 
+    //Gestion des farovis
+    #[ORM\Column(type: 'json', nullable: false)]
+    private array $favoritePlaylists = [];
 
     public function __construct()
     {
@@ -300,5 +303,30 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getFavoritePlaylists(): array
+    {
+        return $this->favoritePlaylists ?? [];
+    }
+
+    public function addFavoritePlaylist(string $playlistId): self
+    {
+        if (!in_array($playlistId, $this->favoritePlaylists)) {
+            $this->favoritePlaylists[] = $playlistId;
+        }
+
+        return $this;
+    }
+
+    public function removeFavoritePlaylist(string $playlistId): self
+    {
+        $this->favoritePlaylists = array_filter(
+            $this->favoritePlaylists,
+            fn($id) => $id !== $playlistId
+        );
+
+        return $this;
+    }
+
 
 }
