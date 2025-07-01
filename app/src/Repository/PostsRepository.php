@@ -36,6 +36,14 @@ class PostsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findDiapoLastThree(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.createdAt', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
 
     //    /**
     //     * @return Posts[] Returns an array of Posts objects

@@ -110,6 +110,35 @@ body {
             }
         }
     }
+
+    .footer-icons,
+    .conf {
+        padding-bottom: 0.5rem;
+    }
+
+    .conf{
+        a{
+            text-decoration: none;
+            color: var(--main-color);
+            font-family: 'Raleway', sans-serif;
+            font-size: 1rem;
+        }
+    }
+
+    .footer-icons{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+
+    }
+
+    p{
+        color: var(--main-color);
+        font-family: 'Raleway', sans-serif;
+        font-size: 1rem;
+    }
+
+
 }
 
 /*Style Page d'accueil - Hero*/
@@ -126,7 +155,7 @@ body {
 
     h1 {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 3rem;
+        font-size:3rem;
         padding-top: 50px;
         background: linear-gradient(to right, var(--dark-color), var(--purple-color));
         -webkit-background-clip: text;
@@ -142,10 +171,9 @@ body {
     }
 }
 
-
 .carousel-container { /*Carrousel*/
-    overflow-x: auto;
-    scroll-behavior: smooth;
+    overflow-x: auto; /*Hidden*/
+    scroll-behavior: smooth; /*A gerer en JS*/
     width: 100%;
     max-width: 100% !important;
     touch-action: pan-x;
@@ -176,10 +204,15 @@ body {
 
                 h2 {
                     font-family: 'Raleway', sans-serif;
-                    font-size: 1.2rem;
+                    font-size: 1.4rem;
                     font-weight: 400;
                     padding-bottom: 1rem;
                     padding-top: 0.5rem;
+                }
+                a{
+                    font-family: 'Raleway', sans-serif;
+                    text-decoration: none;
+                    font-size: 1rem;
                 }
             }
         }
@@ -187,7 +220,7 @@ body {
 }
 
 
-.artiste-of-the-week { /*Artiste de la semaine*/
+.artist-of-the-week { /*Artiste de la semaine*/
     padding-bottom: 40px;
 
     h2 {
@@ -195,6 +228,25 @@ body {
         font-family: 'Bebas Neue', sans-serif;
         font-size: 2rem;
         font-weight: 400;
+    }
+
+    .artist-card{
+        img{
+            width: 100%;
+        }
+        h3, a {
+            text-align: center;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 400;
+        }
+        h3{
+            font-size:1.4rem;
+        }
+        a{
+            font-family: 'Raleway', sans-serif;
+            text-decoration: none;
+            font-size: 1rem;
+        }
     }
 
 }
@@ -319,7 +371,7 @@ body {
     }
 }
 
-/*Style page index articles*/
+/*Style page index articles (actu et culture)*/
 
 .posts-index,
 .artists-index{
@@ -378,6 +430,13 @@ body {
     text-align: center;
     margin-top: 3rem;
     font-family: 'Raleway', sans-serif;
+}
+
+a{
+    font-family: 'Raleway', sans-serif;
+    font-size: 1rem;
+    color: var(--main-color);
+    text-decoration: none;
 }
 
 .no-image {
@@ -453,6 +512,60 @@ body {
     font-size: 1rem;
     text-decoration: none;
     color: var(--dark-color);
+}
+/*Style Page Index playlist*/
+.playlists-section{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+
+    .playlists-title{
+        font-family: 'Bebas Neue', 'sans-serif';
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .playlists-grid{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+
+        .playlists-card{
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: center;
+            padding: 1rem;
+            transition: transform 0.3s;
+            background-color: var(--main-color);
+            &.hover{
+                transform: scale(1.03);
+            }
+
+            a{
+                .playlist-cover{
+                    width: 100%;
+                    height: auto;
+                    border-radius: 4px;
+                }
+            }
+
+            .playlist-name{
+                margin-top: 1rem;
+                font-size: 1.1rem;
+                font-family: 'Raleway', sans-serif;
+            }
+
+            .profil-links{
+                display: inline-block;
+                margin-top: 0.5rem;
+                text-decoration: none;
+                color: #0e76a8;
+                font-weight: bold;
+            }
+        }
+    }
 }
 
 

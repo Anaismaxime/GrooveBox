@@ -34,8 +34,8 @@ class Posts
     #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'post')]
     private Collection $comments;
 
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
+    #[ORM\ManyToOne(inversedBy: 'posts')]
+    private ?Genres $genre = null;
 
 
     public function __construct()
@@ -127,14 +127,15 @@ class Posts
         return $this;
     }
 
-    public function getType(): ?string
+
+    public function getGenre(): ?Genres
     {
-        return $this->type;
+        return $this->genre;
     }
 
-    public function setType(string $type): static
+    public function setGenre(?Genres $genre): static
     {
-        $this->type = $type;
+        $this->genre = $genre;
 
         return $this;
     }

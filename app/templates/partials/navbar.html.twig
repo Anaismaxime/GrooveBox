@@ -8,11 +8,10 @@
     <a class="logo" href="{{ path('app_main') }}">La Groove Box</a>
 
     <div class="sidebar" id="sidebar">
-        <div class="close-btn" id="close-btn">
 
-        </div>
         <nav class="menu" id="menu">
                 <ul>
+                    <li><a href="{{ path('app_main') }}">Accueil</a></li>
                     <li><a href="{{ path('app_house_cultural') }}">Culture Musical</a></li>
                     <li><a href="{{ path('app_posts_actualites') }}">Actualités</a></li>
                     <li><a href="{{ path('playlist_index') }}">Playlists</a></li>
@@ -20,7 +19,7 @@
                     <li><a href="#">Evenements</a></li>
                     {% if app.user %}
                         <li><a href="{{ path('app_profile') }}">Profil</a></li>
-                        <li><a href="#">Déconnexion</a></li>
+                        <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
                     {% endif %}
                 </ul>
         </nav>
@@ -29,7 +28,7 @@
     <div class="person" id="person">
         <a href="{{ path('app_profile') }}" class="person-avatar">
             <svg class="icon" width="30" height="30">
-                <use href="{{ asset('assets/sprites.svg') }}#icon"></use>
+                <use href="{{ asset('assets/sprites.svg') }}#person"></use>
             </svg>
         </a>
     </div>

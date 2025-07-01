@@ -25,7 +25,7 @@ class ContactsForm extends AbstractType
                 ]
             ])
             ->add('agreeterms', CheckboxType::class, [
-                'label' => 'J\'accepte les conditions d\'utilisation',
+                'label' => 'J\'accepte la collecte de mes données personnelles par la GrooveBox dans le cadre de ce formulaire',
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([

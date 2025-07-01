@@ -5,8 +5,4 @@ toggleButton.addEventListener('click', () => {
     sidebar.classList.toggle('open');
 })
 
-const closeButton = document.querySelector('#closeSidebar');
 
-closeButton.addEventListener('click', () => {
-    sidebar.classList.remove('open');
-});

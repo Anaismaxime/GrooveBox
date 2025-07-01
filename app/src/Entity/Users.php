@@ -48,18 +48,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'user')]
     private Collection $comments;
 
-    /**
-     * @var Collection<int, Playlists>
-     */
-    #[ORM\OneToMany(targetEntity: Playlists::class, mappedBy: 'user')]
-    private Collection $playlists;
-
-
-    /**
-     * @var Collection<int, Playlists>
-     */
-    #[ORM\ManyToMany(targetEntity: Playlists::class, inversedBy: 'likes')]
-    private Collection $likes;
 
     /**
      * @var Collection<int, Soundtracks>
@@ -78,8 +66,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
-        $this->playlists = new ArrayCollection();
-        $this->likes = new ArrayCollection();
         $this->favorite_soundtracks = new ArrayCollection();
 
     }
@@ -209,61 +195,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
                 $comment->setUser(null);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Playlists>
-     */
-    public function getPlaylists(): Collection
-    {
-        return $this->playlists;
-    }
-
-    public function addPlaylist(Playlists $playlist): static
-    {
-        if (!$this->playlists->contains($playlist)) {
-            $this->playlists->add($playlist);
-            $playlist->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removePlaylist(Playlists $playlist): static
-    {
-        if ($this->playlists->removeElement($playlist)) {
-            // set the owning side to null (unless already changed)
-            if ($playlist->getUser() === $this) {
-                $playlist->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-
-    /**
-     * @return Collection<int, Playlists>
-     */
-    public function getLikes(): Collection
-    {
-        return $this->likes;
-    }
-
-    public function addLike(Playlists $like): static
-    {
-        if (!$this->likes->contains($like)) {
-            $this->likes->add($like);
-        }
-
-        return $this;
-    }
-
-    public function removeLike(Playlists $like): static
-    {
-        $this->likes->removeElement($like);
 
         return $this;
     }

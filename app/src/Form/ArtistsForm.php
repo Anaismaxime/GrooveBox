@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Artists;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -43,6 +44,9 @@ class ArtistsForm extends AbstractType
                         mimeTypesMessage: 'Seules les formats  suivantes: png, jpg, jpeg, webp sont autorisés',
                     )
                 ]
+            ])
+            ->add('artistOfTheWeek',  checkboxType::class, [
+                'label' => 'Artiste de la semaine',
             ])
             ->add('Submit',  SubmitType::class, [
                 'label'=> 'Ajouter'

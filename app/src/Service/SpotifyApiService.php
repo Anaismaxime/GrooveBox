@@ -44,7 +44,7 @@ class SpotifyApiService
         return $response->toArray();
     }
 
-    // 👉 Méthode pour récupérer la liste des morceaux d'une playlist
+    // Méthode pour récupérer la liste des morceaux d'une playlist
     public function getPlaylistTracks(string $playlistId, string $accessToken): array
     {
         $response = $this->client->request('GET', "https://api.spotify.com/v1/playlists/{$playlistId}/tracks", [
@@ -57,6 +57,16 @@ class SpotifyApiService
         return $response->toArray()['items'];
     }
 
-
+    //Méthode pour récuperer un artiste
+    public function getArtistById(string $artistId, string $accessToken): array
+    {
+        $response = $this->client->request('GET', "https://api.spotify.com/v1/artists/{$artistId}", [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $accessToken,
+            ]
+        ]);
+        return $response->toArray();
+    }
+    //Ajouter un try pour la gestion des erreur en cas de token expirer ou ID invalide ??
 }
 

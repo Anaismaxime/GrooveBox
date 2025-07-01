@@ -2,9 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Genres;
 use App\Entity\Posts;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -33,13 +34,12 @@ class PostsForm extends AbstractType
                     )
                 ]
             ])
-            ->add('type', ChoiceType::class, [
-                'label'  => 'Type de Contenu',
-                'choices' => [
-                    '' => '',
-                    'Culture' => 'cultural',
-                    'Actualité' => 'news',
-                ]
+            ->add('genre', EntityType::class, [
+                'class' => Genres::class,
+                'label'  => 'Genre',
+                'choice_label' => 'name',
+                'placeholder' => 'Choisissez un genre',
+                'required' => true,
             ])
             ->add('submit', SubmitType::class, [
                 'label'  => 'Envoyer',

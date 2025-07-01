@@ -42,10 +42,12 @@ final class PostsController extends AbstractController
     #[Route('/ajouter', name: 'app_posts_new', methods: ['GET', 'POST'])]
     public function add(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+        //dd('coucou');
         $post = new Posts(); // Crée un nouvel objet Post vide
         $form = $this->createForm(PostsForm::class, $post);// Génère le formulaire à partir de la classe PostsForm
         $form->handleRequest($request); // Gère la soumission du formulaire (hydrate $post si soumis)
 
+        //FORMULAIRE MEME PAS SOUMIS
         // Si le formulaire a été soumis ET est valide
         if ($form->isSubmitted() && $form->isValid()) {
             $coverImage = $form->get('coverImage')->getData();
@@ -64,6 +66,7 @@ final class PostsController extends AbstractController
                 //On stock le nom de l'image
                 $post->setCoverImage($newName);
             }
+
 
             $entityManager->persist($post); // Prépare le post à être enregistré
             $entityManager->flush();        // Enregistre le post dans la base de données
@@ -85,7 +88,7 @@ final class PostsController extends AbstractController
     #[Route('/actualites', name: 'app_posts_actualites', methods: ['GET'])]
     public function news(PostsRepository $postsRepository): Response
     {
-        $posts = $postsRepository->findByType('news');
+        $posts = $postsRepository->findByGenre('news');
 
         return $this->render('posts/index.html.twig', [
             'posts' => $posts,
@@ -137,10 +140,5 @@ final class PostsController extends AbstractController
         // Redirige vers la liste après la suppression
         return $this->redirectToRoute('app_posts_index', [], Response::HTTP_SEE_OTHER);
     }
-
-
-
-
-
 
 }

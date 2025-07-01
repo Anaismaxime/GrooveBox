@@ -1,0 +1,23 @@
+{# templates/playlist/show.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de la playlist{% endblock %}
+
+{% block body %}
+    <section class="playlist-detail">
+        <h1>Détails de la playlist</h1>
+
+        {# Iframe Spotify player basé sur l'ID #}
+        <iframe
+            style="border-radius:12px"
+            src="https://open.spotify.com/embed/playlist/{{ playlist_id }}?utm_source=generator"
+            width="100%"
+            height="380"
+            frameborder="0"
+            allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+        </iframe>
+
+    </section>
+{% endblock %}

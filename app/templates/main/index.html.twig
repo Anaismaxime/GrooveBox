@@ -1,57 +1,63 @@
 {% extends 'base.html.twig' %}
 
+
 {% block title %}Page d'accueil!{% endblock %}
+
 
 {% block body %}
 
-<div class="hero">
-    <img class="cover-image" src="{{ asset('uploads/main/img_accueil.png') }}" alt="Image d'accueil" width="300px">
-    <h1>La groove box</h1>
-    <p>Ton espace 100% House Music</p>
-    <div class=carousel-container>
-        <div class="carousel">
-            <article class="slide">
-                <div class="slide-content">
-                    <img src="{{ asset('uploads/main/elrow_fest.jpg') }}" alt="Elrow Fest" width="300px">
-                    <h2>Le festival Elrow débarque à Toulouse!</h2>
-                </div>
-            </article>
-            <article class="slide">
-                <div class="slide-content">
-                    <img src="{{ asset('uploads/main/bb.png') }}" alt="Image du dernier album deBoston Bun" width="300px">
-                    <h2>Boston Bun dévoile son sublime deuxième album "MIXED FEELING"</h2>
-                </div>
-            </article>
-            <article class="slide">
-                <div class="slide-content">
-                    <img src="{{ asset('uploads/main/swales.jpg') }}" alt="Image d'album de Swales" width="300px">
-                    <h2>Swales : L'ascension fulgurante d'un prodige de la house music</h2>
-                </div>
-            </article>
+    <div class="hero">
+        <img class="cover-image" src="{{ asset('uploads/main/img_accueil.png') }}" alt="Image d'accueil" width="300px">
+        <h1>La groove box</h1>
+        <p>Ton espace 100% House Music</p>
+        <div class="carousel-container">
+            <div class="carousel">
+                {% for post in lastPosts %}
+                    <article class="slide">
+                        <div class="slide-content">
+                            <img src="{{ asset('uploads/posts/' ~ post.coverImage) }}" alt="{{ post.title }}"
+                                 width="300px">
+                            <h2>{{ post.title }}</h2>
+                            <a href="{{ path('app_posts_show', {'id': post.id}) }}">Lire l'article</a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
         </div>
     </div>
-</div>
 
 
-    <section class="artiste-of-the-week">
-        <h2>Le coup de coeur de la semaine</h2>
-        <a href="#">Artiste</a>
-    </section>
+
+    {% if artistOfTheWeek %}
+        <section class="artist-of-the-week">
+            <h2>Le coup de cœur de la semaine</h2>
+            <div class="artist-card">
+                <img src="{{ asset('uploads/artists/' ~ artistOfTheWeek.picture) }}" alt="{{ artistOfTheWeek.name }}"
+                     width="200">
+                <h3>{{ artistOfTheWeek.name }}</h3>
+                <a href="{{ path('app_artists_show', {'id': artistOfTheWeek.id}) }}">En savoir plus</a>
+            </div>
+        </section>
+    {% endif %}
+
+
+
     <section class="links">
         <h2>House Culture</h2>
         <div class="btn-groove">
-            <a href="{{ path('app_house_cultural') }}" class="green">House</a>
-            <a href="#" class="blue">Tech House</a>
-            <a href="#" class="purple">Deep House</a>
-            <a href="#" class="pink">Progressive House</a>
+            <a href="{{ path('app_posts_show', {'id':1}) }}" class="green">House</a>
+            <a href="{{ path('app_posts_show', {'id':3}) }}" class="blue">Tech House</a>
+            <a href="{{ path('app_posts_show', {'id':2}) }}" class="purple">Deep House</a>
+            <a href="{{ path('app_posts_show', {'id':4}) }}" class="pink">Progressive House</a>
             <a href="#" class="light-pink">Soulful House</a>
             <a href="#" class="orange">Minimal House</a>
         </div>
     </section>
     <div class="contact">
-        <p>Tu souhaites nous faire découvrir un artiste ? N'hésite pas à nous faire des propositions!</p>
+        <p>Tu souhaites nous faire découvrir un artiste ou un collectif? N'hésite pas à nous faire des propositions
+            !</p>
 
-        {# Traitement du formulaire de contact #}
+        {# Message flash Symfony si tu conserves le traitement côté serveur #}
         {% for message in app.flashes('success') %}
             <div class="alert-success">
                 {{ message }}
@@ -59,20 +65,26 @@
         {% endfor %}
 
         <div class="home-form-container">
-            {{ form_start(form) }}
+            <p class="required-msg">Tous les champs sont obligatoires.</p>
+
+            {# Formulaire avec ID utilisé par le JS #}
+            {{ form_start(form, {'attr': {'id': 'contact-form'}}) }}
 
             <div class="form-group">
                 {{ form_label(form.email) }}
-                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Votre email'}}) }}
             </div>
 
             <div class="form-group">
                 {{ form_label(form.subject) }}
-                {{ form_widget(form.subject, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(form.subject, {'attr': {'class': 'form-control', 'placeholder': 'Sujet de votre message'}}) }}
             </div>
 
             <div class="form-group-checkbox">
-                {{ form_row(form.agreeterms) }}
+                {{ form_widget(form.agreeterms) }}
+                <label for="contacts_form_agreeterms">
+                    J’accepte la collecte de mes données personnelles par La Groove Box dans le cadre de ce formulaire.
+                </label>
             </div>
 
             <div class="form-submit">
@@ -81,6 +93,6 @@
 
             {{ form_end(form) }}
         </div>
-
     </div>
+
 {% endblock %}

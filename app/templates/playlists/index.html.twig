@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Playlists - La Groove Box{% endblock %}
+
+{% block body %}
+    <section class="playlists-section">
+        <h1 class="playlists-title">Les playlists officielles de La Groove Box</h1>
+
+        <div class="playlists-grid">
+            {% for playlist in playlists %}
+                <article class="playlist-card">
+                    <a href="{{ path('playlist_show', { id: playlist.id }) }}">
+                        {% if playlist.images[0].url is defined %}
+                            <img src="{{ playlist.images[0].url }}" alt="Image {{ playlist.name }}" class="playlist-image">
+                        {% endif %}
+                    </a>
+                </article>
+            {% else %}
+                <p class="no-playlist">Aucune playlist à afficher pour le moment.</p>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

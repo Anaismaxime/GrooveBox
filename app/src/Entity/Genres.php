@@ -24,9 +24,23 @@ class Genres
     #[ORM\OneToMany(targetEntity: Soundtracks::class, mappedBy: 'genre')]
     private Collection $soundtracks;
 
+    /**
+     * @var Collection<int, Posts>
+     */
+    #[ORM\OneToMany(targetEntity: Posts::class, mappedBy: 'genre')]
+    private Collection $posts;
+
+    /**
+     * @var Collection<int, Playlists>
+     */
+    #[ORM\OneToMany(targetEntity: Playlists::class, mappedBy: 'genre')]
+    private Collection $playlists;
+
     public function __construct()
     {
         $this->soundtracks = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->playlists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,6 +84,66 @@ class Genres
             // set the owning side to null (unless already changed)
             if ($soundtrack->getGenre() === $this) {
                 $soundtrack->setGenre(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Posts>
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Posts $post): static
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts->add($post);
+            $post->setGenres($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(Posts $post): static
+    {
+        if ($this->posts->removeElement($post)) {
+            // set the owning side to null (unless already changed)
+            if ($post->getGenre() === $this) {
+                $post->setGenres(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Playlists>
+     */
+    public function getPlaylists(): Collection
+    {
+        return $this->playlists;
+    }
+
+    public function addPlaylist(Playlists $playlist): static
+    {
+        if (!$this->playlists->contains($playlist)) {
+            $this->playlists->add($playlist);
+            $playlist->setGenre($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlaylist(Playlists $playlist): static
+    {
+        if ($this->playlists->removeElement($playlist)) {
+            // set the owning side to null (unless already changed)
+            if ($playlist->getGenre() === $this) {
+                $playlist->setGenre(null);
             }
         }
 

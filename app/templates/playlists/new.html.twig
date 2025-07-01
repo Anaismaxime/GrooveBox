@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une playlist{% endblock %}
+
+{% block body %}
+    <section class="playlist-form-section">
+        <h1>Ajouter une playlist Spotify</h1>
+
+        {{ form_start(form) }}
+
+        <div class="form-group">
+            {{ form_label(form.spotifyId) }}
+            {{ form_widget(form.spotifyId) }}
+            {{ form_errors(form.spotifyId) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.isPublic) }}
+            {{ form_widget(form.isPublic) }}
+            {{ form_errors(form.isPublic) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_widget(form.submit) }}
+        </div>
+
+        {{ form_end(form) }}
+    </section>
+{% endblock %}
+

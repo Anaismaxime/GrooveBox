@@ -4,6 +4,8 @@ namespace App\Controller;
 
 
 use App\Form\ContactsForm;
+use App\Repository\ArtistsRepository;
+use App\Repository\PostsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class MainController extends AbstractController
 {
     #[Route('/', name: 'app_main')]
-    public function index(Request $request, MailerInterface $mailer): Response
+    public function index(Request $request, MailerInterface $mailer, ArtistsRepository $artistsRepository, PostsRepository $postsRepository): Response
     {
 
         $form = $this->createForm(ContactsForm::class );
@@ -33,8 +35,15 @@ final class MainController extends AbstractController
             $this->addFlash('success','Message envoyé avec succès');
             return $this->redirectToRoute('app_main');
         }
+
+        //Ici on récupère l'artiste de la semaine
+        $artistOfTheWeek = $artistsRepository->findArtistOfTheWeek();
+        $lastPosts = $postsRepository->findDiapoLastThree();
+
         return $this->render('main/index.html.twig', [
             'form' => $form->createView(),
+            'artistOfTheWeek' => $artistOfTheWeek, //Transmet à mon twig
+            'lastPosts' => $lastPosts,
         ]);
     }
 }

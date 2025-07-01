@@ -16,6 +16,18 @@ class ArtistsRepository extends ServiceEntityRepository
         parent::__construct($registry, Artists::class);
     }
 
+    // Récuperation artiste of the week
+
+    public function findArtistOfTheWeek(): ?Artists
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.artistOfTheWeek = :val')
+            ->setParameter('val', true)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Artists[] Returns an array of Artists objects
     //     */
