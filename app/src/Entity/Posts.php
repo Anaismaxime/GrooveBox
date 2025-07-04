@@ -28,20 +28,18 @@ class Posts
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    /**
-     * @var Collection<int, Comments>
-     */
-    #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'post')]
-    private Collection $comments;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
     private ?Genres $genre = null;
 
+    #[ORM\ManyToMany(targetEntity: Artists::class)]
+    private Collection $artists;
+
 
     public function __construct()
     {
-        $this->comments = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
+        $this->artists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,36 +95,6 @@ class Posts
         return $this;
     }
 
-    /**
-     * @return Collection<int, Comments>
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comments $comment): static
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
-            $comment->setPost($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comments $comment): static
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getPost() === $this) {
-                $comment->setPost(null);
-            }
-        }
-
-        return $this;
-    }
-
 
     public function getGenre(): ?Genres
     {
@@ -137,6 +105,27 @@ class Posts
     {
         $this->genre = $genre;
 
+        return $this;
+    }
+
+
+    public function getArtists(): Collection
+    {
+        return $this->artists;
+    }
+
+    public function addArtist(Artists $artist): static
+    {
+        if (!$this->artists->contains($artist)) {
+            $this->artists->add($artist);
+        }
+
+        return $this;
+    }
+
+    public function removeArtist(Artists $artist): static
+    {
+        $this->artists->removeElement($artist);
         return $this;
     }
 

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use ContainerMYTux9J\getDoctrine_Orm_Listeners_LockStoreSchemaListenerService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -42,34 +43,30 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $avatar = 'uploads/avatars/default-avatar.png';
+
+    /**
+     * @var Collection<int, Playlists>
+     */
+    #[ORM\ManyToMany(targetEntity: Playlists::class, inversedBy: 'users')]
+    private Collection $playlists;
+
     /**
      * @var Collection<int, Comments>
      */
-    #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'user')]
-    private Collection $comments;
-
-
-    /**
-     * @var Collection<int, Soundtracks>
-     */
-    #[ORM\ManyToMany(targetEntity: Soundtracks::class, inversedBy: 'users')]
-    private Collection $favorite_soundtracks;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $avatar = 'uploads/avatars/default-avatar.png'; //Modifier ici
-
-    //Gestion des farovis
-    #[ORM\Column(type: 'json', nullable: false)]
-    private array $favoritePlaylists = [];
+    #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'users')]
+    private Collection $comments; //Modifier ici
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->playlists = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->favorite_soundtracks = new ArrayCollection();
 
     }
-
 
 
     public function getId(): ?int
@@ -169,59 +166,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Comments>
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
 
-    public function addComment(Comments $comment): static
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
-            $comment->setUser($this);
-        }
 
-        return $this;
-    }
-
-    public function removeComment(Comments $comment): static
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getUser() === $this) {
-                $comment->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Soundtracks>
-     */
-    public function getFavoriteSoundtracks(): Collection
-    {
-        return $this->favorite_soundtracks;
-    }
-
-    public function addFavoriteSoundtrack(Soundtracks $favoriteSoundtrack): static
-    {
-        if (!$this->favorite_soundtracks->contains($favoriteSoundtrack)) {
-            $this->favorite_soundtracks->add($favoriteSoundtrack);
-        }
-
-        return $this;
-    }
-
-    public function removeFavoriteSoundtrack(Soundtracks $favoriteSoundtrack): static
-    {
-        $this->favorite_soundtracks->removeElement($favoriteSoundtrack);
-
-        return $this;
-    }
 
     public function getAvatar(): ?string
     {
@@ -235,26 +181,56 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getFavoritePlaylists(): array
+    /**
+     * @return Collection<int, Playlists>
+     */
+    public function getPlaylists(): Collection
     {
-        return $this->favoritePlaylists ?? [];
+        return $this->playlists;
     }
 
-    public function addFavoritePlaylist(string $playlistId): self
+    public function addPlaylist(Playlists $playlist): static
     {
-        if (!in_array($playlistId, $this->favoritePlaylists)) {
-            $this->favoritePlaylists[] = $playlistId;
+        if (!$this->playlists->contains($playlist)) {
+            $this->playlists->add($playlist);
         }
 
         return $this;
     }
 
-    public function removeFavoritePlaylist(string $playlistId): self
+    public function removePlaylist(Playlists $playlist): static
     {
-        $this->favoritePlaylists = array_filter(
-            $this->favoritePlaylists,
-            fn($id) => $id !== $playlistId
-        );
+        $this->playlists->removeElement($playlist);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comments>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUsers() === $this) {
+                $comment->setUsers(null);
+            }
+        }
 
         return $this;
     }

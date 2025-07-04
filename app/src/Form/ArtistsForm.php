@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Artists;
+use App\Entity\Genres;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -23,6 +25,10 @@ class ArtistsForm extends AbstractType
             ])
             ->add('biography', TextareaType::class, [
                 'label' => 'Biographie',
+                'required' => true,
+                'attr' => [
+                    'class' =>  'form-control ckeditor'
+                ]
             ])
             ->add('country', options: [
                 'label' => 'Pays',
@@ -45,10 +51,18 @@ class ArtistsForm extends AbstractType
                     )
                 ]
             ])
+            ->add('genre', EntityType::class, [
+                'class' => Genres::class,
+                'label'  => 'Genre',
+                'choice_label' => 'name',
+                'placeholder' => 'Choisissez un genre',
+                'required' => true,
+            ])
             ->add('artistOfTheWeek',  checkboxType::class, [
                 'label' => 'Artiste de la semaine',
+                'required' => false
             ])
-            ->add('Submit',  SubmitType::class, [
+            ->add('submit',  SubmitType::class, [
                 'label'=> 'Ajouter'
             ])
         ;

@@ -18,11 +18,6 @@ class Genres
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    /**
-     * @var Collection<int, Soundtracks>
-     */
-    #[ORM\OneToMany(targetEntity: Soundtracks::class, mappedBy: 'genre')]
-    private Collection $soundtracks;
 
     /**
      * @var Collection<int, Posts>
@@ -36,11 +31,17 @@ class Genres
     #[ORM\OneToMany(targetEntity: Playlists::class, mappedBy: 'genre')]
     private Collection $playlists;
 
+    /**
+     * @var Collection<int, Artists>
+     */
+    #[ORM\OneToMany(targetEntity: Artists::class, mappedBy: 'genres')]
+    private Collection $artists;
+
     public function __construct()
     {
-        $this->soundtracks = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->playlists = new ArrayCollection();
+        $this->artists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -60,35 +61,6 @@ class Genres
         return $this;
     }
 
-    /**
-     * @return Collection<int, Soundtracks>
-     */
-    public function getSoundtracks(): Collection
-    {
-        return $this->soundtracks;
-    }
-
-    public function addSoundtrack(Soundtracks $soundtrack): static
-    {
-        if (!$this->soundtracks->contains($soundtrack)) {
-            $this->soundtracks->add($soundtrack);
-            $soundtrack->setGenre($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSoundtrack(Soundtracks $soundtrack): static
-    {
-        if ($this->soundtracks->removeElement($soundtrack)) {
-            // set the owning side to null (unless already changed)
-            if ($soundtrack->getGenre() === $this) {
-                $soundtrack->setGenre(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Posts>
@@ -102,7 +74,7 @@ class Genres
     {
         if (!$this->posts->contains($post)) {
             $this->posts->add($post);
-            $post->setGenres($this);
+
         }
 
         return $this;
@@ -113,7 +85,7 @@ class Genres
         if ($this->posts->removeElement($post)) {
             // set the owning side to null (unless already changed)
             if ($post->getGenre() === $this) {
-                $post->setGenres(null);
+
             }
         }
 
@@ -144,6 +116,36 @@ class Genres
             // set the owning side to null (unless already changed)
             if ($playlist->getGenre() === $this) {
                 $playlist->setGenre(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Artists>
+     */
+    public function getArtists(): Collection
+    {
+        return $this->artists;
+    }
+
+    public function addArtist(Artists $artist): static
+    {
+        if (!$this->artists->contains($artist)) {
+            $this->artists->add($artist);
+            $artist->setGenres($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArtist(Artists $artist): static
+    {
+        if ($this->artists->removeElement($artist)) {
+            // set the owning side to null (unless already changed)
+            if ($artist->getGenres() === $this) {
+                $artist->setGenres(null);
             }
         }
 

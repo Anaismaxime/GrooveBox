@@ -4,9 +4,11 @@
 
 {% block body %}
     <section class="artist-details">
-        <h1>{{ artist.name }}</h1>
-        <img src="{{ asset('uploads/artists/' ~ artist.picture) }}" alt="{{ artist.name }}" width="300">
-        <p>{{ artist.biography }}</p>
+        <h1 class="title-new">{{ artist.name }}</h1>
+        <img src="{{ asset('uploads/artists/' ~ artist.picture) }}" alt="{{ artist.name }}" class="article-cover" width="300">
+        <div class="article-content">
+            <p>{{ artist.biography|raw }}</p>
+        </div>
         <p>Pays : {{ artist.country }}</p>
 
         {% if artist.urlSpotify %}

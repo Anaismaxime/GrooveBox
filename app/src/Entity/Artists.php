@@ -37,16 +37,9 @@ class Artists
     #[ORM\Column(nullable: true)]
     private ?bool $artistOfTheWeek = null;
 
-    /**
-     * @var Collection<int, Soundtracks>
-     */
-    #[ORM\ManyToMany(targetEntity: Soundtracks::class, inversedBy: 'artists')]
-    private Collection $producedTracks;
-
-    public function __construct()
-    {
-        $this->producedTracks = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'artists')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Genres $genre = null;
 
     public function getId(): ?int
     {
@@ -137,26 +130,15 @@ class Artists
         return $this;
     }
 
-    /**
-     * @return Collection<int, Soundtracks>
-     */
-    public function getProducedTracks(): Collection
+
+    public function getGenre(): ?Genres
     {
-        return $this->producedTracks;
+        return $this->genre;
     }
 
-    public function addProducedTrack(Soundtracks $producedTrack): static
+    public function setGenre(?Genres $genre): static
     {
-        if (!$this->producedTracks->contains($producedTrack)) {
-            $this->producedTracks->add($producedTrack);
-        }
-
-        return $this;
-    }
-
-    public function removeProducedTrack(Soundtracks $producedTrack): static
-    {
-        $this->producedTracks->removeElement($producedTrack);
+        $this->genre = $genre;
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Artists;
 use App\Entity\Genres;
 use App\Entity\Posts;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -19,10 +20,14 @@ class PostsForm extends AbstractType
     {
         $builder
             ->add('title', options: [
-                'label'  => 'Titre',
+                'label' => 'Titre',
             ])
             ->add('content', TextareaType::class, [
-                'label'  => 'Contenu',
+                'label' => 'Contenu',
+                'required' => true,
+                'attr' => [
+                    'class' => 'form-control ckeditor'
+                ]
             ])
             ->add('coverImage', FileType::class, [
                 'label' => 'Image de Couverture',
@@ -30,21 +35,27 @@ class PostsForm extends AbstractType
                 'constraints' => [
                     new Image (
                         mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
-                        mimeTypesMessage : 'Seuls les formats JPG, PNG et WEBP sont acceptés'
+                        mimeTypesMessage: 'Seuls les formats JPG, PNG et WEBP sont acceptés'
                     )
                 ]
             ])
             ->add('genre', EntityType::class, [
                 'class' => Genres::class,
-                'label'  => 'Genre',
+                'label' => 'Genre',
                 'choice_label' => 'name',
                 'placeholder' => 'Choisissez un genre',
                 'required' => true,
             ])
-            ->add('submit', SubmitType::class, [
-                'label'  => 'Envoyer',
+            ->add('artists', EntityType::class, [
+                'class' => Artists::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true,
+                'label' => 'Artistes associés à cet article',
             ])
-        ;
+            ->add('submit', SubmitType::class, [
+                'label' => 'Envoyer',
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

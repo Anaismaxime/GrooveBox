@@ -2,16 +2,35 @@
 
 {% block title %}Artistes{% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('js/genre-filter.js') }}" defer></script>
+{% endblock %}
+
 {% block body %}
     <div class="artists-index">
-        <h1 class="section-title">Nos artistes house</h1>
+        <h1 class="section-title">Nos artistes</h1>
         <p class="section-intro">
             Explore l'univers vibrant des artistes de la scène house sélectionnés par La Groove Box.
         </p>
 
+        <div class="genre-filter">
+            <label for="genreFilter">Filtrer par genre :</label>
+            <select id="genreFilter">
+                <option value="all">Tous les genres</option>
+                {% for artist in artists %}
+                    {% set genreName = artist.genre.name %}
+                    {% if genreName not in usedGenres|default([]) %}
+                        <option value="{{ genreName }}">{{ genreName }}</option>
+                        {% set usedGenres = (usedGenres|default([]))|merge([genreName]) %}
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+
+
         <div class="artists-grid">
             {% for artist in artists %}
-                <div class="artist-card">
+                <div class="artist-card" data-id="{{ artist.genre.name|e('html_attr')}}"> {# Va chercher le genre qui sera inscrit dans le html du twig #}
                     {% if artist.picture %}
                         <img src="{{ asset('uploads/artists/' ~ artist.picture) }}" alt="{{ artist.name }}" class="artist-image">
                     {% else %}

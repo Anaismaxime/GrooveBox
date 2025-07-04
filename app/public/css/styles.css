@@ -7,8 +7,8 @@
     --blue-color: #5DCEF6;
     --green-color: #00FF80;
     --orange-color: rgba(255, 165, 0, 1);
-    --main-font: 'Bebas Neue', sans-serif;
-    --title-font: 'Raleway', sans-serif;
+    --main-font: 'Raleway', sans-serif;
+    --title-font: 'Bebas Neue', sans-serif;
     --font-size: 10px;
 }
 
@@ -43,15 +43,13 @@ body {
     align-items: center;
     padding: 10px;
 
-
     .logo { /*Mise en forme du logo*/
         font-family: 'Bebas Neue', sans-serif;
         font-size: 2rem;
         color: var(--main-color);
         text-decoration: none;
     }
-
-    .icon{
+    .icon {
         fill: var(--main-color);
     }
 
@@ -99,7 +97,7 @@ body {
     background-color: var(--dark-color);
     color: var(--main-color);
     text-align: center;
-    padding: 1em;
+    padding: 0.5rem;
 
     a {
         svg {
@@ -116,8 +114,8 @@ body {
         padding-bottom: 0.5rem;
     }
 
-    .conf{
-        a{
+    .conf {
+        a {
             text-decoration: none;
             color: var(--main-color);
             font-family: 'Raleway', sans-serif;
@@ -125,14 +123,14 @@ body {
         }
     }
 
-    .footer-icons{
+    .footer-icons {
         display: flex;
         justify-content: space-evenly;
         align-items: center;
 
     }
 
-    p{
+    p {
         color: var(--main-color);
         font-family: 'Raleway', sans-serif;
         font-size: 1rem;
@@ -155,7 +153,7 @@ body {
 
     h1 {
         font-family: 'Bebas Neue', sans-serif;
-        font-size:3rem;
+        font-size: 3rem;
         padding-top: 50px;
         background: linear-gradient(to right, var(--dark-color), var(--purple-color));
         -webkit-background-clip: text;
@@ -172,12 +170,12 @@ body {
 }
 
 .carousel-container { /*Carrousel*/
-    overflow-x: auto; /*Hidden*/
-    scroll-behavior: smooth; /*A gerer en JS*/
+    overflow-x: auto;
+    scroll-behavior: smooth;
     width: 100%;
     max-width: 100% !important;
-    touch-action: pan-x;
     margin: auto !important;
+    touch-action: pan-x;
 
     .carousel {
         display: flex;
@@ -186,7 +184,7 @@ body {
         .slide {
             min-width: 100% !important;
             box-sizing: border-box;
-            padding: 40px;
+            padding:3rem;
             text-align: center;
 
             .slide-content {
@@ -195,8 +193,9 @@ body {
                 width: 100%;
 
                 img {
-                    width: 100%;
-                    height: 200px;
+                    aspect-ratio: 1/1;
+                    width: 380px;
+                    height: 300px;
                     object-fit: cover;
                     border-radius: 10px;
                     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
@@ -209,10 +208,11 @@ body {
                     padding-bottom: 1rem;
                     padding-top: 0.5rem;
                 }
-                a{
-                    font-family: 'Raleway', sans-serif;
-                    text-decoration: none;
-                    font-size: 1rem;
+
+                a {
+                    font-family: 'Bebas Neue';
+                    font-size: 1.5rem;
+                    color:var(--dark-color);
                 }
             }
         }
@@ -230,22 +230,26 @@ body {
         font-weight: 400;
     }
 
-    .artist-card{
-        img{
+    .artist-card {
+        img {
             width: 100%;
         }
+
         h3, a {
             text-align: center;
             font-family: 'Raleway', sans-serif;
             font-weight: 400;
         }
-        h3{
-            font-size:1.4rem;
+
+        h3 {
+            font-size: 1.4rem;
         }
-        a{
+
+        a {
             font-family: 'Raleway', sans-serif;
             text-decoration: none;
             font-size: 1rem;
+            color: var(--dark-color);
         }
     }
 
@@ -371,10 +375,67 @@ body {
     }
 }
 
+.post-card-form {
+    display: flex;
+    justify-content: center;
+}
+
+.favorite-button{
+    font-family: Bebas Neue, sans-serif;
+    background-color: var(--dark-color);
+    color: var(--main-color);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
 /*Style page index articles (actu et culture)*/
 
+.genre-filter {
+    max-width: 300px;
+    margin: 0 auto 3rem auto; /* centré + espace sous le filtre */
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+}
+
+.genre-filter label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #333;
+}
+
+.genre-filter select {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    font-family: 'Raleway', sans-serif;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.genre-filter select:hover {
+    border-color: var(--main-color);
+    background-color: #fff;
+}
+
+
 .posts-index,
-.artists-index{
+.artists-index {
     max-width: 1200px;
     margin: 4rem auto;
     padding: 1rem;
@@ -393,24 +454,25 @@ body {
     margin-bottom: 3rem;
 }
 
-.posts-grid ,
-.artists-grid{
+.posts-grid,
+.artists-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
 }
 
 .post-card,
-.artist-card{
+.artist-card {
     background-color: #fff;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     padding: 1.5rem;
     text-align: center;
+    margin: 2rem;
 }
 
 .post-image,
-.artist-image{
+.artist-image {
     max-width: 100%;
     height: 200px;
     object-fit: cover;
@@ -420,7 +482,7 @@ body {
 }
 
 .post-title,
-.artist-name{
+.artist-name {
     font-family: 'Bebas Neue', cursive;
     font-size: 1.5rem;
     margin: 1rem 0;
@@ -432,7 +494,7 @@ body {
     font-family: 'Raleway', sans-serif;
 }
 
-a{
+a {
     font-family: 'Raleway', sans-serif;
     font-size: 1rem;
     color: var(--main-color);
@@ -444,7 +506,152 @@ a{
     color: #888;
 }
 
+/*Style CSS page incription et connexion */
+
+.register-form-section,
+.login-form-section,
+.reset-form-section {
+    max-width: 600px;
+    margin: 4rem auto;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+
+}
+
+.register-form-section .form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Centrage du bouton */
+.btn-black {
+    display: flex;
+    justify-content: center;
+}
+
+/* Style du paragraphe "Déjà inscrit ?" */
+.register-form-section p {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1rem;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.register-form-section p a {
+    color: black;
+    text-decoration: underline;
+}
+
+.login-form-section {
+    max-width: 600px;
+    padding: 2rem;
+}
+
+.login-form-section .form-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form-section .btn-black,
+.register-form-section .btn-black,
+.reset-form-section .btn-black {
+    display: block;
+    margin: 0 auto;
+    background-color: #000;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.login-form-section .btn-grey {
+    display: block;
+    margin: 0 auto;
+    background-color: #ccc;
+    color: #111;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.login-form-section p {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1rem;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.login-form-section p a {
+    color: black;
+    text-decoration: underline;
+}
+
+
 /*Style page affichage d'un article*/
+
+
+.article-content {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--dark-color);
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Paragraphes */
+.article-content p {
+    margin-bottom: 1.2rem;
+}
+
+/* Titres */
+.article-content h1,
+.article-content h2,
+.article-content h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 400;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.article-content h2 {
+    font-size: 2rem;
+}
+.article-content h3 {
+    font-size: 1.5rem;
+}
+
+/* Liens */
+.article-content a {
+    color: var(--blue-color);
+    text-decoration: underline;
+}
+
+.article-content a:hover {
+    color: var(--pink-color);
+}
+
+/* Listes */
+.article-content ul,
+.article-content ol {
+    padding-left: 2rem;
+    margin-bottom: 1.5rem;
+}
+.article-cover {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 2rem auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    object-fit: cover;
+}
 
 
 
@@ -513,57 +720,118 @@ a{
     text-decoration: none;
     color: var(--dark-color);
 }
+
+
 /*Style Page Index playlist*/
-.playlists-section{
+/* Conteneur principal : titre + grille */
+.playlists-section-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem 1rem;
+}
 
-    .playlists-title{
-        font-family: 'Bebas Neue', 'sans-serif';
-        text-align: center;
-        font-size: 2rem;
-        margin-bottom: 2rem;
+/* Titre */
+.playlists-title {
+    font-family: 'Bebas Neue', 'sans-serif';
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Grille des playlists */
+.playlists-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+}
+
+.playlist-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: #fff;
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
     }
+}
 
-    .playlists-grid{
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
+.playlist-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+}
 
-        .playlists-card{
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            text-align: center;
-            padding: 1rem;
-            transition: transform 0.3s;
-            background-color: var(--main-color);
-            &.hover{
-                transform: scale(1.03);
-            }
+.playlists-section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
 
-            a{
-                .playlist-cover{
-                    width: 100%;
-                    height: auto;
-                    border-radius: 4px;
-                }
-            }
+.playlists-title {
+    font-family: 'Bebas Neue', 'sans-serif';
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
 
-            .playlist-name{
-                margin-top: 1rem;
-                font-size: 1.1rem;
-                font-family: 'Raleway', sans-serif;
-            }
 
-            .profil-links{
-                display: inline-block;
-                margin-top: 0.5rem;
-                text-decoration: none;
-                color: #0e76a8;
-                font-weight: bold;
-            }
+/*Style Page playlist Indiv*/
+
+
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.btn-center,
+.favorite-form {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-favorite {
+    background-color: var(--dark-color);
+    color: white;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1rem;
+    margin: auto;
+}
+
+.comments-container {
+    margin: 2rem;
+}
+
+.comments {
+    background-color: #f4f4f4;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+    p {
+        font-family: 'Raleway', sans-serif;
+        font-size: 1rem;
+
+        a {
+            color: var(--dark-color);
         }
     }
 }
@@ -571,7 +839,7 @@ a{
 
 /*Style page Profil */
 
-.main-profil{
+.main-profil {
     margin: 2rem;
 
     .profil-title {
@@ -579,15 +847,31 @@ a{
         font-size: 2rem;
         font-weight: 400;
         text-align: center;
+        padding-bottom: 1rem;
+
+
+    }
+
+    .user-name {
+        text-align: center;
+        font-family: 'Raleway', sans-serif;
+        font-size: 2rem;
+        font-weight: 400;
     }
 
     .avatar {
         display: block;
         margin: 2rem auto;
-        border-radius: 50%; /* optionnel pour arrondir l'image*/
+        border-radius: 5px; /* optionnel pour arrondir l'image*/
+
     }
 
-    .profil-links{
+    a {
+        color: var(--dark-color);
+    }
+
+
+    .profil-links {
         h2 {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 2rem;
@@ -596,40 +880,41 @@ a{
             margin: 2rem;
         }
 
-        ul{
+        ul {
             list-style: none;
             padding: 0;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 2rem;
+            justify-content: center;
             padding-bottom: 4rem;
 
             li {
+                display: flex;
+                justify-content: center;
                 a {
                     aspect-ratio: 1/1;
-                    width: 100%;
+                    width: 140px;
+                    height: 140px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     border-radius: 8px;
                     font-family: Bebas Neue, sans-serif;
-                    font-size: 2rem;
+                    font-size: 1.5rem;
                     text-decoration: none;
                     color: var(--main-color);
                     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
                     transition: transform 0.2s ease, box-shadow 0.2s ease;
 
-                    &.blue{
+                    &.blue {
                         background-color: var(--blue-color);
+                        text-align: center;
                     }
 
-                    &.pink{
+                    &.pink {
                         background-color: var(--pink-color);
-                    }
-
-                    &:hover {
-                        background-color: var(--purple-color);
-
+                        text-align: center;
                     }
                 }
 
@@ -637,8 +922,16 @@ a{
         }
     }
 
-    .faq{
 
+
+    .faq {
+
+        h2{
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 2rem;
+            font-weight: 400;
+            text-align: center;
+        }
         .accordion { /* Conteneur principal des éléments d'accordéon (FAQ) */
             max-width: 800px;
             margin: 2rem auto;
@@ -646,7 +939,7 @@ a{
             flex-direction: column;
             gap: 1rem;
 
-            .accordion-item{
+            .accordion-item {
 
                 .accordion-header { /* Boutons d’en-tête de chaque question FAQ */
                     background-color: var(--purple-color);
@@ -661,6 +954,7 @@ a{
                     font-weight: bold;
                     transition: background-color 0.3s ease;
                 }
+
                 .accordion-header:hover {
                     background-color: var(--pink-color);
                 }
@@ -686,6 +980,77 @@ a{
     }
 }
 
+/* TABLETTE */
+@media screen and (min-width: 768px) {
+
+    /* Artiste de la semaine : image plus petite */
+    .artist-of-the-week .artist-card img {
+        width: 60%;
+        max-width: 300px;
+        margin: 0 auto;
+        display: block;
+    }
+
+    /* Actu et artistes : 2 colonnes */
+    .posts-grid,
+    .artists-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+.profil-links ul li a {
+    width: 180px;
+    height: 180px;
+    font-size: 1.5rem;
+}
+
+/* DESKTOP */
+@media screen and (min-width: 1025px) {
+
+    /* Carrousel de l'accueil : 3 slides visibles */
+    .carousel .slide {
+        min-width: 33.3333% !important;
+        max-width: 33.3333%;
+    }
+
+    /* Liens House / Culture : 6 à la suite */
+    .links .btn-groove {
+        grid-template-columns: repeat(6, 1fr);
+    }
+
+    /* Barre de navigation */
+    .navbar-mobile {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Affichage direct des liens du menu */
+    .navbar-mobile .sidebar {
+        display: flex !important;
+        position: static;
+        height: auto;
+        background-color: transparent;
+        padding: 0;
+    }
+
+    .navbar-mobile .sidebar .menu ul {
+        display: flex;
+        justify-content: space-evenly;
+        gap: 2rem;
+        margin-left: auto;
+    }
+
+    .navbar-mobile .sidebar .menu ul li a {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2rem;
+        color: var(--main-color);
+    }
+
+    .profile-picture {
+        width: 200px;
+        height: 200px;
+    }
+}
 
 
 

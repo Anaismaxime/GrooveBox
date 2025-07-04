@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Comments;
+use App\Form\CommentsForm;
 use App\Repository\PlaylistsRepository;
 use App\Service\SpotifyApiService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -50,16 +54,37 @@ class SpotifyController extends AbstractController
 
     //Méthode pour afficher les morceaux d'une playlist
     #[Route('/playlist/{id}', name: 'playlist_show')]
-    public function show(string $id, SpotifyApiService $spotifyApiService): Response
+    public function show(string $id, SpotifyApiService $spotifyApiService, PlaylistsRepository $playlistsRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $accessToken = $spotifyApiService->getAppAccessToken();
         $tracks = $spotifyApiService->getPlaylistTracks($id, $accessToken);
 
+        $playlist = $playlistsRepository->findOneBy(['spotifyId' => $id]);
+
+        //Partie commentaire
+        $comment = new Comments(); //Creation nouveau comm vide
+
+        $form = $this->createForm(CommentsForm::class, $comment); // Creation form lié au comm
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) { //Si form soumis et valide
+            $comment->setUser($this->getUser()); //Associe user
+            $comment->setPlaylists($playlist); //Lis le comm à la playlist
+            $comment->setCreatedAt(new \DateTimeImmutable()); //Enregistre la date
+
+            $entityManager->persist($comment); //Enregistre base de donnée
+            $entityManager->flush();
+
+            return $this->redirectToRoute('playlist_show', ['id' => $playlist->getSpotifyId()]); //redirection
+        }
         return $this->render('playlists/show.html.twig', [
             'tracks' => $tracks,
-            'playlist_id' => $id,
+            'playlist' => $playlist,
+            'commentForm' => $form,
         ]);
+
     }
+
 
 }
 

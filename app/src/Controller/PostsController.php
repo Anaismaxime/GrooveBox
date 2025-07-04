@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -30,11 +31,14 @@ final class PostsController extends AbstractController
 {
     // Route pour afficher tous les posts (page d'accueil des articles)
     #[Route(name: 'app_posts_index', methods: ['GET'])]
-    public function index(PostsRepository $postsRepository): Response
+    public function index(PostsRepository $postsRepository, SessionInterface $session): Response
     {
+        $posts = $postsRepository->findAll();
+        $favorites = $session->get('favorites', []);
         // Récupère tous les articles dans la base de données via le repository
         return $this->render('posts/index.html.twig', [
-            'posts' => $postsRepository->findAll(), // Transmet les posts au template Twig
+            'posts' => $posts,
+            'favorites' => $favorites,
         ]);
     }
 
@@ -82,29 +86,41 @@ final class PostsController extends AbstractController
         ]);
     }
 
-
-
-    // Affiche uniquement les articles de type "Actualité"
-    #[Route('/actualites', name: 'app_posts_actualites', methods: ['GET'])]
-    public function news(PostsRepository $postsRepository): Response
+    #[Route('/{id}/posts-favorite', name: 'app_posts_favorite', methods: ['POST'])]
+    public function favorite(Posts $posts, Request $request, SessionInterface $session): Response
     {
-        $posts = $postsRepository->findByGenre('news');
+        $session = $request->getSession();
+        $favorites = $session->get('favorite', []);
 
-        return $this->render('posts/index.html.twig', [
-            'posts' => $posts,
-        ]);
+        $id = $posts->getId();
+
+        if (in_array($id, $favorites)) {
+            // Retirer des favoris
+            $favorites = array_filter($favorites, fn($favId) => $favId != $id);
+        } else {
+            // Ajouter aux favoris
+            $favorites[] = $id;
+        }
+
+        $session->set('favorites', $favorites);
+
+        return $this->redirect($request->headers->get('referer'));
     }
-
-
 
     // Route pour afficher un post individuel (détails d’un article)
     #[Route('/{id}', name: 'app_posts_show', methods: ['GET'])]
-    public function show(Posts $post): Response
+    public function show(Posts $post, Request $request): Response
     {
+        $favorites = $request->getSession()->get('favorites', []); //Id stocker en session
         // Affiche la page de détails d’un post
+        //Interroger API
+
         return $this->render('posts/show.html.twig', [
             'post' => $post, // Symfony injecte automatiquement le post grâce à l’ID
+            'favorites' => $favorites,
         ]);
+
+
     }
 
     // Route pour modifier un article existant

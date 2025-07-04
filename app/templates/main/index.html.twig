@@ -3,11 +3,14 @@
 
 {% block title %}Page d'accueil!{% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('js/carousel.js') }}" defer></script>
+{% endblock %}
 
 {% block body %}
 
     <div class="hero">
-        <img class="cover-image" src="{{ asset('uploads/main/img_accueil.png') }}" alt="Image d'accueil" width="300px">
+        <img class="cover-image" src="{{ asset('uploads/main/img_accueil.png') }}" alt="Image d'accueil" width="300px" height="auto">
         <h1>La groove box</h1>
         <p>Ton espace 100% House Music</p>
         <div class="carousel-container">
@@ -32,8 +35,8 @@
         <section class="artist-of-the-week">
             <h2>Le coup de cœur de la semaine</h2>
             <div class="artist-card">
-                <img src="{{ asset('uploads/artists/' ~ artistOfTheWeek.picture) }}" alt="{{ artistOfTheWeek.name }}"
-                     width="200">
+                <img class='img-post 'src="{{ asset('uploads/artists/' ~ artistOfTheWeek.picture) }}" alt="{{ artistOfTheWeek.name }}"
+                     width="200" height="auto">
                 <h3>{{ artistOfTheWeek.name }}</h3>
                 <a href="{{ path('app_artists_show', {'id': artistOfTheWeek.id}) }}">En savoir plus</a>
             </div>
@@ -45,8 +48,8 @@
     <section class="links">
         <h2>House Culture</h2>
         <div class="btn-groove">
-            <a href="{{ path('app_posts_show', {'id':1}) }}" class="green">House</a>
-            <a href="{{ path('app_posts_show', {'id':3}) }}" class="blue">Tech House</a>
+            <a href="{{ path('app_posts_show', {'id':3}) }}" class="green">House</a>
+            <a href="{{ path('app_posts_show', {'id':1}) }}" class="blue">Tech House</a>
             <a href="{{ path('app_posts_show', {'id':2}) }}" class="purple">Deep House</a>
             <a href="{{ path('app_posts_show', {'id':4}) }}" class="pink">Progressive House</a>
             <a href="#" class="light-pink">Soulful House</a>

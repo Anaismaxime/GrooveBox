@@ -1,26 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <h1>Inscription</h1>
-
-    {{ form_errors(registrationForm) }}
+    <section class="register-form-section">
+        <h1 class="title-new">Créer mon compte</h1>
 
         {{ form_start(registrationForm) }}
-        <div>
-            {{ form_row(registrationForm.username) }}
+
+        <div class="form-group">
+            {{ form_label(registrationForm.username) }}
+            {{ form_widget(registrationForm.username) }}
+            {{ form_errors(registrationForm.username) }}
         </div>
-        <div>
-            {{ form_row(registrationForm.email) }}
+
+        <div class="form-group">
+            {{ form_label(registrationForm.email) }}
+            {{ form_widget(registrationForm.email) }}
+            {{ form_errors(registrationForm.email) }}
         </div>
-        <div>
-            {{ form_row(registrationForm.plainPassword) }}
+
+        <div class="form-group">²
+            {{ form_label(registrationForm.plainPassword) }}
+            {{ form_widget(registrationForm.plainPassword) }}
+            {{ form_errors(registrationForm.plainPassword) }}
         </div>
-        <div>
-            {{ form_row(registrationForm.agreeTerms) }}
+
+        <div class="form-group">
+            {{ form_label(registrationForm.agreeTerms) }}
+            {{ form_widget(registrationForm.agreeTerms) }}
+            {{ form_errors(registrationForm.agreeTerms) }}
         </div>
-        <button type="submit" class="btn">M'inscrire</button>
-    {{ form_end(registrationForm) }}
-    <p>Déjà inscrit ? <a href="{{ path('app_login') }}">Me connecter</a></p>
+
+        <div class="form-group">
+            <button type="submit" class="btn-black">M'inscrire</button>
+        </div>²
+
+        {{ form_end(registrationForm) }}
+
+        <p>Déjà inscrit ? <a href="{{ path('app_login') }}">Me connecter</a></p>
+    </section>
 {% endblock %}

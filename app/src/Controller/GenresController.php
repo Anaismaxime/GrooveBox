@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Genres;
-use App\Form\GenresForm;
+use App\Entity\Form\GenresForm;
 use App\Repository\GenresRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

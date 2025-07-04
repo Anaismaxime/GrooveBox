@@ -3,27 +3,22 @@
 {% block title %}Mes playlists favorites{% endblock %}
 
 {% block body %}
-    <h1>🎧 Mes playlists favorites</h1>
+    <section class="playlists-section-container">
+        <h1 class="playlists-title">Mes playlists favorites</h1>
 
-    {% if favoritePlaylists is empty %}
-        <p>Aucune playlist enregistrée.</p>
-    {% else %}
-        {% for playlist in favoritePlaylists %}
-            <div class="favorite-playlist">
-                <h3>{{ playlist.name }}</h3>
-                <p>Créée par {{ playlist.owner.display_name }}</p>
+        <div class="playlists-section">
+            {% for playlist in favoritePlaylists %}
+                <article class="playlist-card">
+                    <a href="{{ path('playlist_show', { id: playlist.id }) }}">
+                        {% if playlist.images[0].url is defined %}
+                            <img src="{{ playlist.images[0].url }}" alt="Image {{ playlist.name }}" class="playlist-image">
+                        {% else %}
+                            <p class="no-image">Pas d'image disponible</p>
+                        {% endif %}
+                    </a>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
 
-                <iframe style="border-radius:12px"
-                        src="https://open.spotify.com/embed/playlist/{{ playlist.id }}"
-                        width="100%" height="152" frameborder="0"
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                        loading="lazy">
-                </iframe>
-
-                <form action="{{ path('playlist_toggle_favorite', { id: playlist.id }) }}" method="post" style="margin-top: 10px;">
-                    <button type="submit" class="btn btn-danger">Retirer des favoris ❤️</button>
-                </form>
-            </div>
-        {% endfor %}
-    {% endif %}
 {% endblock %}

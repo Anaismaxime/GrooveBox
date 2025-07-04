@@ -42,24 +42,6 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Connection automatique avec Security
-            //$security->login($user);
-
-            //header Structuration du token
-            $header= [
-                'typ' => 'JWT',
-                'alg' => 'HS256',
-            ];
-
-            //payload
-            $payload = [
-                'user_id' => $user->getId(),
-            ];
-
-            //Générer le token
-            $token = $JWTService->generate($header, $payload,$this->getParameter('app.jwtsecret'));
-
-
             //On initialise le contexte
             $context = [
                 "username" => $user->getusername(),
@@ -71,13 +53,15 @@ class RegistrationController extends AbstractController
                 'Bienvenue dans l\'Univers de la Groove Box',
                 'register', $context);
 
+            $this->addFlash('danger', 'Votre inscription a été prise en compte!');
 
             return $this->redirectToRoute('app_profile');
+
+
         }
 
-        $this->addFlash('danger', 'Votre lien est invalide ou a expiré');
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+            'registrationForm' => $form
         ]);
     }
 }

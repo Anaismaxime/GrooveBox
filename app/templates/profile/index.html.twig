@@ -3,27 +3,29 @@
 {% block title %}Profil{% endblock %}
 
 {% block javascripts %}
+    <script src="{{ asset('js/carousel.js') }}" defer></script>
     <script src="{{ asset('js/faq.js') }}" defer></script>
 {% endblock %}
 
 {% block body %}
     <div class="main-profil">
         <h1 class="profil-title">Mon Profil</h1>
-        <p>{{ app.user.username }}</p>
+        <p class="user-name">{{ app.user.username }}</p>
         {# Section photo de profil #}
         {% if user.avatar %}
             <img class="avatar"
-                 src="{{ asset(user.avatar) }}" alt="Avatar de {{ user.username }}" width="200">
+                 src="{{ asset(app.user.avatar) }}" alt="Avatar de {{ app.user.username }}" width="200">
         {% else %}
             <p>Aucun avatar défini</p>
         {% endif %}
 
+        <a href="{{ path('app_edit_avatar') }}">Modifier avatar</a>
         {# Section liens utiles #}
         <section class="profil-links">
             <h2>Let's Go!</h2>
             <ul class="btn-links">
-                <li><a class="blue" href="{{ path('app_main') }}">A lire plus tard</a></li>
-                <li><a class="pink" href="{{ path('profile_playlists') }}">Mes playlists</a></li>
+                <li><a class="blue" href="{{ path('app_profile_favorites_posts') }}">A lire plus tard</a></li>
+                <li><a class="pink" href="{{ path('app_profile_favorites') }}">Mes playlists</a></li>
             </ul>
         </section>
 

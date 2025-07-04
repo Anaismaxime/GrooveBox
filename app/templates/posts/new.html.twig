@@ -1,40 +1,42 @@
-{# Page d'affichage du formulaire pour créer un nouveau post #}
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Ajouter un article{% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('js/ckeditor5.js') }}" type="module"></script>
+    <script src="{{ asset('js/ckeditor-init.js') }}" type="module"></script>
+{% endblock %}
+
 {% block body %}
-<h1 class="title-new">Ajouter un Article</h1>
+    <h1 class="title-new">Ajouter un Article</h1>
 
-<div class="form-container">
-    {{ form_start(form) }}
-    {{ form_errors(form) }}
-    <div class="form-group">
-        {{ form_label(form.title) }}
-        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+    <div class="form-container">
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        <div class="form-group">
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        {# <div id="editor"></div> #}
+        {{ form_row(form.content) }}
+
+
+        <div class="form-group">
+            {{ form_label(form.genre) }}
+            {{ form_widget(form.genre, {'attr': {'class': 'form-select'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.coverImage) }}
+            {{ form_widget(form.coverImage) }}
+        </div>
+
+        <div class="form-submit">
+            {{ form_widget(form.submit, {'attr': {'class': 'btn-black'}}) }}
+        </div>
+        {{ form_end(form) }}
+        <a href="{{ path('app_posts_index') }}" class="btn-return">Retour</a>
     </div>
 
-    <div class="form-group">
-        {{ form_label(form.content) }}
-        {{ form_widget(form.content, {'attr': {'class': 'form-control', 'id':'editor'}}) }}
-    </div>
-
-    <div class="form-group">
-        {{ form_label(form.genre) }}
-        {{ form_widget(form.genre, {'attr': {'class': 'form-select'}}) }}
-    </div>
-
-    <div class="form-group">
-        {{ form_label(form.coverImage) }}
-        {{ form_widget(form.coverImage) }}
-    </div>
-
-    <div class="form-submit">
-        {{ form_widget(form.submit, {'attr': {'class': 'btn-black'}}) }}
-    </div>
-    {{ form_end(form) }}
-    <a href="{{ path('app_posts_index') }}" class="btn-return">Retour</a>
-</div>
-
-    {% endblock %}
+{% endblock %}

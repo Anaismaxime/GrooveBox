@@ -21,10 +21,10 @@ class Comments
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
-    private ?Posts $post = null;
+    private ?Users $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
-    private ?Users $user = null;
+    private ?Playlists $playlists = null;
 
     public function __construct()
     {
@@ -60,18 +60,6 @@ class Comments
         return $this;
     }
 
-    public function getPost(): ?Posts
-    {
-        return $this->post;
-    }
-
-    public function setPost(?Posts $post): static
-    {
-        $this->post = $post;
-
-        return $this;
-    }
-
     public function getUser(): ?Users
     {
         return $this->user;
@@ -80,6 +68,18 @@ class Comments
     public function setUser(?Users $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPlaylists(): ?Playlists
+    {
+        return $this->playlists;
+    }
+
+    public function setPlaylists(?Playlists $playlists): static
+    {
+        $this->playlists = $playlists;
 
         return $this;
     }

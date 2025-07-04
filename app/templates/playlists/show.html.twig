@@ -1,23 +1,70 @@
-{# templates/playlist/show.html.twig #}
+{# templates/playlists/show.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Détails de la playlist{% endblock %}
 
 {% block body %}
     <section class="playlist-detail">
-        <h1>Détails de la playlist</h1>
+        <h1 class="section-title">Détails de la playlist</h1>
 
-        {# Iframe Spotify player basé sur l'ID #}
-        <iframe
-            style="border-radius:12px"
-            src="https://open.spotify.com/embed/playlist/{{ playlist_id }}?utm_source=generator"
-            width="100%"
-            height="380"
-            frameborder="0"
-            allowfullscreen=""
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy">
-        </iframe>
+        {# Iframe Spotify player basé sur l'ID de la playlist #}
+        <div class="spotify-player">
+            <iframe
+                style="border-radius:12px"
+                src="https://open.spotify.com/embed/playlist/{{ playlist.spotifyId }}?utm_source=generator"
+                width="100%"
+                height="500"
+                frameborder="0"
+                allowfullscreen=""
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy">
+            </iframe>
+        </div>
 
+        {% if app.user %}
+            {% set isFavorite = app.user.playlists|filter(p => p.id == playlist.id)|length > 0 %}
+            <form action="{{ path('app_playlists_toggle_favorite', {id: playlist.id}) }}" method="post" class="favorite-form">
+                <input type="hidden" name="_token" value="{{ csrf_token('toggle-favorite' ~ playlist.id) }}">
+                <button type="submit"  class="btn btn-favorite">
+                    {% if isFavorite %}
+                        Retirer des favoris
+                    {% else %}
+                        Ajouter aux favoris
+                    {% endif %}
+                </button>
+            </form>
+        {% endif %}
     </section>
+    <section class="comments-container">
+        <h2 class="section-title">Commentaires</h2>
+
+        {% for comment in playlist.comments %}
+            <div class="comment">
+                <strong>{{ comment.user.username }}</strong> :
+                <p>{{ comment.content }}</p>
+                <small>Posté le {{ comment.createdAt|date('d/m/Y à H:i') }}</small>
+            </div>
+        {% else %}
+            <p>Soyez le premier à commenter !</p>
+        {% endfor %}
+
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div class="form-section">
+                {{ form_start(commentForm) }}
+
+                <div class="form-group">
+                    {{ form_label(commentForm.content, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(commentForm.content, {'attr': {'class': 'form-textarea'}}) }}
+                    {{ form_errors(commentForm.content) }}
+                </div>
+                <div class="btn-center">
+                    {{ form_row(commentForm.submit)}}
+                </div>
+                {{ form_end(commentForm) }}
+            </div>
+        {% else %}
+            <p><a href="{{ path('app_login') }}">Connecte-toi</a> pour laisser un commentaire.</a></p>
+        {% endif %}
+    </section>
+
 {% endblock %}

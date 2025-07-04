@@ -22,7 +22,7 @@ final class PlaylistsController extends AbstractController
             'playlists' => $playlistsRepository->findAll(),
         ]);
     }
-
+    //Ajout de playlist
     #[Route('/ajouter', name: 'app_playlists_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
@@ -43,16 +43,28 @@ final class PlaylistsController extends AbstractController
             'form' => $form,
         ]);
     }
-
-    #[Route('/{id}', name: 'app_playlists_show', methods: ['GET'])]
-    public function show(Playlists $playlist): Response
+    //Gestion playlist en favoris
+    #[Route('/{id}/toggle-favorite', name: 'app_playlists_toggle_favorite', methods: ['POST'])]
+    public function toggleFavorite(Playlists $playlist, EntityManagerInterface $em): Response
     {
-        return $this->render('playlists/show.html.twig', [
-            'playlist' => $playlist,
-        ]);
+
+        //** @var User $user */
+        $user = $this->getUser();
+
+        if ($user->getPlaylists()->contains($playlist)) {
+            $user->removePlaylist($playlist);
+        } else {
+            $user->addPlaylist($playlist);
+        }
+
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute('playlist_show', ['id' => $playlist->getSpotifyId()]);
     }
 
-    #[Route('/{id}/edit', name: 'app_playlists_edit', methods: ['GET', 'POST'])]
+    //Edit de playlist
+    #[Route('/{id}/modifier', name: 'app_playlists_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Playlists $playlist, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(PlaylistsForm::class, $playlist);
@@ -69,8 +81,8 @@ final class PlaylistsController extends AbstractController
             'form' => $form,
         ]);
     }
-
-    #[Route('/{id}', name: 'app_playlists_delete', methods: ['POST'])]
+    //Supprimer la playlist
+    #[Route('/{id}/supprimer', name: 'app_playlists_delete', methods: ['POST'])]
     public function delete(Request $request, Playlists $playlist, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$playlist->getId(), $request->getPayload()->getString('_token'))) {
@@ -80,4 +92,7 @@ final class PlaylistsController extends AbstractController
 
         return $this->redirectToRoute('app_playlists_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
 }

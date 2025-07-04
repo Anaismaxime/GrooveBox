@@ -4,23 +4,49 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block body %}
-    <h1>{{ post.title }}</h1>
+    <h1 class="title-new">{{ post.title }}</h1>
 
     {% if post.coverImage %}
-        <img src="{{ asset('uploads/posts/' ~ post.coverImage) }}" alt="{{ post.title }}" width="500">
+        <img src="{{ asset('uploads/posts/' ~ post.coverImage) }}" alt="{{ post.title }}" class="article-cover">
+
     {% endif %}
 
-    <div>
-        <ul>
-            {% for line in post.content|split('\n') %}
-                {% if '-' in line %}
-                    {% set parts = line|split('-') %}
-                    <li>{{ parts[0]|trim }} : <strong>{{ parts[1]|trim }}</strong></li>
+
+    <div class="post-card">
+
+        <form class='post-card-form' action="{{ path('app_posts_favorite', {id: post.id}) }}" method="post">
+            <input type="hidden" name="_token" value="{{ csrf_token('toggle-favorite' ~ post.id) }}">
+
+            {% set isFavorite = post.id in favorites %}
+            <button type="submit" class="favorite-button">
+                {% if isFavorite %}
+                    ❤️ Retirer des favoris
                 {% else %}
-                    <li>{{ line }}</li>
+                    🤍 Ajouter aux favoris
                 {% endif %}
-            {% endfor %}
-        </ul>
+            </button>
+        </form>
+    </div>
+
+    {% for artist in post.artists %}
+        {% if artist.urlSpotify %}
+            {% set spotifyId = artist.urlSpotify|split('/')|last %}
+
+            <iframe style="border-radius:12px"
+                    src="https://open.spotify.com/embed/artist/{{ spotifyId }}"
+                    width="100%" height="125
+"
+                    frameBorder="0"
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy">
+            </iframe>
+        {% endif %}
+    {% endfor %}
+
+
+
+    <div class="article-content">
+        {{ post.content|raw }}
     </div>
 
     <a href="{{ path('app_posts_index') }}">← Retour aux articles</a>
