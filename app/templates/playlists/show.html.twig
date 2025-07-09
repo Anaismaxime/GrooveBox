@@ -21,6 +21,24 @@
             </iframe>
         </div>
 
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="admin-buttons">
+                <div class="admin-btn-wrapper">
+                    <a href="{{ path('app_playlists_edit', {'id': playlist.id}) }}" class="btn-admin">Modifier</a>
+                </div>
+                <div class="admin-btn-wrapper">
+                    <form method="post" action="{{ path('app_playlists_delete', {'id': playlist.id}) }}" onsubmit="return confirm('Êtes-vous sûr ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ playlist.id) }}">
+                        <button class="btn-admin">Supprimer</button>
+                    </form>
+                </div>
+            </div>
+
+        {% endif %}
+
+
+
+
         {% if app.user %}
             {% set isFavorite = app.user.playlists|filter(p => p.id == playlist.id)|length > 0 %}
             <form action="{{ path('app_playlists_toggle_favorite', {id: playlist.id}) }}" method="post" class="favorite-form">
@@ -49,7 +67,7 @@
         {% endfor %}
 
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <div class="form-section">
+            <div class="form-section" aria-label="Formulaire d’ajout de commentaire">
                 {{ form_start(commentForm) }}
 
                 <div class="form-group">
@@ -63,7 +81,7 @@
                 {{ form_end(commentForm) }}
             </div>
         {% else %}
-            <p><a href="{{ path('app_login') }}">Connecte-toi</a> pour laisser un commentaire.</a></p>
+            <p class="co"><a class="co" href="{{ path('app_login') }}">Connecte-toi</a> pour laisser un commentaire.</a></p>
         {% endif %}
     </section>
 

@@ -1,5 +1,5 @@
 <header class="navbar-mobile">
-    <div class="burger" id="burger" >
+    <div class="burger" id="burger" aria-label="Ouvrir le menu"  >
         <svg class="icon" width="30" height="30">
             <use href="{{ asset('assets/sprites.svg') }}#burger"></use>
         </svg>
@@ -9,18 +9,25 @@
 
     <div class="sidebar" id="sidebar">
 
-        <nav class="menu" id="menu">
-                <ul>
-                    <li><a href="{{ path('app_main') }}">Accueil</a></li>
-                    <li><a href="{{ path('app_posts_index') }}">Actualités</a></li>
-                    <li><a href="{{ path('playlist_index') }}">Playlists</a></li>
-                    <li><a href="{{ path('app_artists_index') }}">Artistes</a></li>
-                    <li><a href="#">Evenements</a></li>
-                    {% if app.user %}
-                        <li><a href="{{ path('app_profile') }}">Profil</a></li>
-                        <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+        <nav class="menu" id="menu" role="navigation" aria-label="Menu principal">
+        <ul>
+                <li><a href="{{ path('app_main') }}">Accueil</a></li>
+                <li><a href="{{ path('app_posts_index') }}">Actualités</a></li>
+                <li><a href="{{ path('playlist_index') }}">Playlists</a></li>
+                <li><a href="{{ path('app_artists_index') }}">Artistes</a></li>
+                <li><a href="#">Événements</a></li>
+
+                {% if app.user %}
+                    <li><a href="{{ path('app_profile') }}">Profil</a></li>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path('app_admin') }}">Admin</a></li>
                     {% endif %}
-                </ul>
+
+                    <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+                {% endif %}
+            </ul>
+
         </nav>
     </div>
 

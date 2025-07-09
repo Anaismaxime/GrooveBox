@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Genres;
-use App\Entity\Form\GenresForm;
+use App\Form\GenresForm;
 use App\Repository\GenresRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,9 +22,11 @@ final class GenresController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_genres_new', methods: ['GET', 'POST'])]
+    #[Route('/ajouter', name: 'app_genres_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $genre = new Genres();
         $form = $this->createForm(GenresForm::class, $genre);
         $form->handleRequest($request);
@@ -50,9 +52,11 @@ final class GenresController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_genres_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/modifier', name: 'app_genres_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Genres $genre, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $form = $this->createForm(GenresForm::class, $genre);
         $form->handleRequest($request);
 
@@ -68,9 +72,11 @@ final class GenresController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_genres_delete', methods: ['POST'])]
+    #[Route('/{id}/supprimer', name: 'app_genres_delete', methods: ['POST'])]
     public function delete(Request $request, Genres $genre, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$genre->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($genre);
             $entityManager->flush();

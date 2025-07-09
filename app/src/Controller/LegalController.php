@@ -11,7 +11,7 @@ final class LegalController extends AbstractController
     #[Route('/confidentialite', name: 'confidentialite')]
     public function confidentialite(): Response
     {
-        return $this->render('legal/confidentiality.html.twig');
+        return $this->render('legal/index.html.twig');
     }
 
 }

@@ -3,19 +3,43 @@
 {% block title %}{{ artist.name }}{% endblock %}
 
 {% block body %}
-    <section class="artist-details">
-        <h1 class="title-new">{{ artist.name }}</h1>
-        <img src="{{ asset('uploads/artists/' ~ artist.picture) }}" alt="{{ artist.name }}" class="article-cover" width="300">
+    <article aria-labelledby="artist-name">
+        <h1 id="artist-name" class="title-new">{{ artist.name }}</h1>
+
+        <a href="{{ artist.urlSpotify }}" target="_blank" rel="noopener"
+           aria-label="Écouter {{ artist.name }} sur Spotify">
+            <img src="{{ asset('uploads/artists/' ~ artist.picture) }}"
+                 alt="Portrait de l’artiste {{ artist.name }}"
+                 class="article-cover"
+                 width="300">
+        </a>
+
+        <p class="artist-country"><strong>Pays :</strong> {{ artist.country }}</p>
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="admin-buttons">
+                <div class="admin-btn-wrapper">
+                    <a href="{{ path('app_artists_edit', {'id': artist.id}) }}" class="btn-admin">Modifier</a>
+                </div>
+                <div class="admin-btn-wrapper">
+                    <form method="post" action="{{ path('app_artists_delete', {'id': artist.id}) }}" onsubmit="return confirm('Êtes-vous sûr ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artist.id) }}">
+                        <button class="btn-admin">Supprimer</button>
+                    </form>
+                </div>
+            </div>
+
+        {% endif %}
         <div class="article-content">
+            <h2 class="sr-only">Biographie</h2>
             <p>{{ artist.biography|raw }}</p>
         </div>
-        <p>Pays : {{ artist.country }}</p>
 
-        {% if artist.urlSpotify %}
-            <a href="{{ artist.urlSpotify }}" target="_blank">Écouter sur Spotify</a>
-        {% endif %}
+        <p>
+            <a href="{{ path('app_main') }}" aria-label="Retour à la page d’accueil">
+                ← Retour à l'accueil
+            </a>
+        </p>
+    </article>
 
-        <br>
-        <a href="{{ path('app_main') }}">← Retour à l'accueil</a>
-    </section>
 {% endblock %}

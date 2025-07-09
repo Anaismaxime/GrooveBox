@@ -19,6 +19,7 @@ class AvatarForm extends AbstractType
             ->add('avatar', FileType::class, [
                 'label' => 'Nouvel Avatar',
                 'mapped' => false,
+                'required' => true,
                 'constraints' => [
                     new Image(
                         mimeTypes: ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'],
@@ -33,7 +34,10 @@ class AvatarForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            //Non lié à une entité
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'upload_avatar',
         ]);
     }
 }

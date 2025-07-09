@@ -26,6 +26,8 @@ final class ArtistsController extends AbstractController
     #[Route('/ajouter', name: 'app_artists_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $artist = new Artists();
         $form = $this->createForm(ArtistsForm::class, $artist);
         $form->handleRequest($request);
@@ -65,6 +67,8 @@ final class ArtistsController extends AbstractController
     #[Route('/{id}/modifier', name: 'app_artists_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Artists $artist, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $form = $this->createForm(ArtistsForm::class, $artist);
         $form->handleRequest($request);
 
@@ -83,6 +87,8 @@ final class ArtistsController extends AbstractController
     #[Route('/{id}/supprimer', name: 'app_artists_delete', methods: ['POST'])]
     public function delete(Request $request, Artists $artist, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$artist->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($artist);
             $entityManager->flush();

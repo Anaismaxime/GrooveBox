@@ -1,30 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter une playlist{% endblock %}
+{% block title %}Edit Playlists{% endblock %}
 
 {% block body %}
     <section class="playlist-form-section">
-        <h1>Ajouter une playlist Spotify</h1>
+        <h1 class="title-new">Ajouter une playlist Spotify</h1>
 
-        {{ form_start(form) }}
+        <div class="form-container">
+            {{ form_start(form) }}
 
-        <div class="form-group">
-            {{ form_label(form.spotifyId) }}
-            {{ form_widget(form.spotifyId) }}
-            {{ form_errors(form.spotifyId) }}
+            {{ form_errors(form) }}
+
+            <div class="form-group">
+                {{ form_label(form.spotifyId, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.spotifyId, {'attr': {'placeholder': 'ID ou URL Spotify', 'class': 'form-control'}}) }}
+                {{ form_errors(form.spotifyId) }}
+            </div>
+
+            <div class="form-group checkbox-group">
+                <label class="form-checkbox-label">
+                    {{ form_widget(form.isPublic, {'attr': {'class': 'form-checkbox'}}) }}
+                    {{ form_label(form.isPublic, null, {'label_attr': {'class': 'form-label-inline'}}) }}
+                </label>
+                {{ form_errors(form.isPublic) }}
+            </div>
+
+
+            <div class="form-group">
+                {{ form_label(form.genre, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.genre, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.genre) }}
+            </div>
+
+            <div class="form-submit">
+                {{ form_widget(form.submit, {'attr': {'class': 'btn-black'}}) }}
+            </div>
+
+            {{ form_end(form) }}
         </div>
-
-        <div class="form-group">
-            {{ form_label(form.isPublic) }}
-            {{ form_widget(form.isPublic) }}
-            {{ form_errors(form.isPublic) }}
-        </div>
-
-        <div class="form-group">
-            {{ form_widget(form.submit) }}
-        </div>
-
-        {{ form_end(form) }}
     </section>
-{% endblock %}
 
+    {{ include('genres/genre_form.html.twig', {'button_label': 'Update'}) }}
+
+    <div class="form-submit">
+        <a href="{{ path('app_playlists_index') }}" class="btn btn-grey">← Retour à la liste</a>
+    </div>
+{% endblock %}

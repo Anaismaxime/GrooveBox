@@ -60,12 +60,15 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Comments::class, mappedBy: 'users')]
     private Collection $comments; //Modifier ici
 
+    #[ORM\ManyToMany(targetEntity: Posts::class)]
+    private Collection $favoritePosts;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->playlists = new ArrayCollection();
         $this->comments = new ArrayCollection();
-
+        $this->favoritePosts = new ArrayCollection();
     }
 
 
@@ -236,4 +239,22 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
+    public function getFavoritePosts(): Collection
+    {
+        return $this->favoritePosts;
+    }
+
+    public function addFavoritePost(Posts $post): self
+    {
+        if (!$this->favoritePosts->contains($post)) {
+            $this->favoritePosts[] = $post;
+        }
+        return $this;
+    }
+
+    public function removeFavoritePost(Posts $post): self
+    {
+        $this->favoritePosts->removeElement($post);
+        return $this;
+    }
 }

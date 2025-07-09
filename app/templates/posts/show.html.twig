@@ -11,6 +11,21 @@
 
     {% endif %}
 
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="admin-buttons">
+            <div class="admin-btn-wrapper">
+                <a href="{{ path('app_posts_edit', {'id': post.id}) }}" class="btn-admin">Modifier</a>
+            </div>
+            <div class="admin-btn-wrapper">
+                <form method="post" action="{{ path('app_posts_delete', {'id': post.id}) }}" onsubmit="return confirm('Êtes-vous sûr ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
+                    <button class="btn-admin">Supprimer</button>
+                </form>
+            </div>
+        </div>
+
+    {% endif %}
+
 
     <div class="post-card">
 
@@ -48,6 +63,8 @@
     <div class="article-content">
         {{ post.content|raw }}
     </div>
+
+
 
     <a href="{{ path('app_posts_index') }}">← Retour aux articles</a>
 {% endblock %}

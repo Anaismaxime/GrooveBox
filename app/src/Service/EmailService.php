@@ -16,10 +16,10 @@ class EmailService
     }
 
     //Ecriture de la logique d'envoi de mail
-    public function send(string $form,  string $to, string $subject, string $template, array $context = []): void
+    public function send(string $from,  string $to, string $subject, string $template, array $context = []): void
     {
         $email = (new TemplatedEmail())
-        ->from($form)
+        ->from($from)
         ->to($to)
         ->subject($subject)
         ->htmlTemplate("emails/$template.html.twig")

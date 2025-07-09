@@ -26,6 +26,8 @@ final class PlaylistsController extends AbstractController
     #[Route('/ajouter', name: 'app_playlists_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $playlist = new Playlists();
         $form = $this->createForm(PlaylistsForm::class, $playlist);
         $form->handleRequest($request);
@@ -43,30 +45,38 @@ final class PlaylistsController extends AbstractController
             'form' => $form,
         ]);
     }
-    //Gestion playlist en favoris
+    // Route pour gérer le bouton "favoris"
     #[Route('/{id}/toggle-favorite', name: 'app_playlists_toggle_favorite', methods: ['POST'])]
     public function toggleFavorite(Playlists $playlist, EntityManagerInterface $em): Response
     {
-
-        //** @var User $user */
+        // Je récupère l'utilisateur connecté
+        /** @var User $user */
         $user = $this->getUser();
 
+        // Si la playlist est déjà dans ses favoris → je la retire
         if ($user->getPlaylists()->contains($playlist)) {
             $user->removePlaylist($playlist);
-        } else {
+        }
+        // Sinon → je l’ajoute aux favoris
+        else {
             $user->addPlaylist($playlist);
         }
 
+        // Je sauvegarde la modification dans la base
         $em->persist($user);
         $em->flush();
 
+        // Je redirige vers la page de la playlist
         return $this->redirectToRoute('playlist_show', ['id' => $playlist->getSpotifyId()]);
     }
+
 
     //Edit de playlist
     #[Route('/{id}/modifier', name: 'app_playlists_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Playlists $playlist, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $form = $this->createForm(PlaylistsForm::class, $playlist);
         $form->handleRequest($request);
 
@@ -85,6 +95,8 @@ final class PlaylistsController extends AbstractController
     #[Route('/{id}/supprimer', name: 'app_playlists_delete', methods: ['POST'])]
     public function delete(Request $request, Playlists $playlist, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$playlist->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($playlist);
             $entityManager->flush();

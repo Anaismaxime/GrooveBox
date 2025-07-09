@@ -8,54 +8,76 @@
 {% endblock %}
 
 {% block body %}
-    <h1 class="title-new">Ajouter un artiste</h1>
+<h1 class="title-new">Ajouter un artiste</h1>
 
-    <div class="form-container">
-        {{ form_start(form) }}
-        {{ form_errors(form) }}
+<div class="form-container">
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
 
-        <div class="form-group">
-            {{ form_label(form.name) }}
-            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-        </div>
+    <div class="form-group">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+    </div>
 
-        {{ form_row(form.biography) }}
+    {{ form_row(form.biography) }}
 
-        <div class="form-group">
-            {{ form_label(form.country) }}
-            {{ form_widget(form.country, {'attr': {'class': 'form-control'}}) }}
-        </div>
+    <div class="form-group">
+        {{ form_label(form.country) }}
+        {{ form_widget(form.country, {'attr': {'class': 'form-control'}}) }}
+    </div>
 
-        <div class="form-group">
-            {{ form_label(form.genre) }}
-            {{ form_widget(form.genre, {'attr': {'class': 'form-select'}}) }}
-        </div>
+    <div class="form-group">
+        {{ form_label(form.genre) }}
+        {{ form_widget(form.genre, {'attr': {'class': 'form-select'}}) }}
+    </div>
 
-        <div class="form-group">
-            {{ form_label(form.urlSoundcloud) }}
-            {{ form_widget(form.urlSoundcloud, {'attr': {'class': 'form-control'}}) }}
-        </div>
+    <div class="form-group">
+        {{ form_label(form.urlSoundcloud) }}
+        {{ form_widget(form.urlSoundcloud, {
+            'attr': {
+                'class': 'form-control',
+                'aria-label': 'Lien Soundcloud de l\'artiste'
+            }
+        }) }}
+    </div>
 
-        <div class="form-group">
-            {{ form_label(form.urlSpotify) }}
-            {{ form_widget(form.urlSpotify, {'attr': {'class': 'form-control'}}) }}
-        </div>
+    <div class="form-group">
+        {{ form_label(form.urlSpotify) }}
+        {{ form_widget(form.urlSpotify, {
+            'attr': {
+                'class': 'form-control',
+                'aria-label': 'Lien Spotify de l\'artiste'
+            }
+        }) }}
+    </div>
 
-        <div class="form-group">
-            {{ form_label(form.picture) }}
-            {{ form_widget(form.picture) }}
-        </div>
+    <div class="form-group">
+        {{ form_label(form.picture) }}
+        {{ form_widget(form.picture, {
+            'attr': {
+                'aria-label': 'Image de l\'artiste'
+            }
+        }) }}
+    </div>
 
+    <fieldset>
+        <legend class="sr-only">Mise en avant de l'artiste</legend>
         <div class="form-group">
             {{ form_label(form.artistOfTheWeek) }}
-            {{ form_widget(form.artistOfTheWeek) }}
+            {{ form_widget(form.artistOfTheWeek, {
+                'attr': {
+                    'aria-label': 'Cochez si cet artiste est à mettre en avant cette semaine'
+                }
+            }) }}
         </div>
+    </fieldset>
 
-        <div class="form-submit">
-            {{ form_widget(form.submit, {'attr': {'class': 'btn-black'}}) }}
-        </div>
 
-        {{ form_end(form) }}
-        <a href="{{ path('app_artists_index') }}" class="btn-return">Retour</a>
-    </div>
+<div class="form-submit">
+{{ form_widget(form.submit, {'attr': {'class': 'btn-black'}}) }}
+</div>
+
+{{ form_end(form) }}
+<a href="{{ path('app_artists_index') }}" class="btn-return">Retour</a>
+</div>
 {% endblock %}

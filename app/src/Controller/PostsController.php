@@ -46,7 +46,8 @@ final class PostsController extends AbstractController
     #[Route('/ajouter', name: 'app_posts_new', methods: ['GET', 'POST'])]
     public function add(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-        //dd('coucou');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $post = new Posts(); // Crée un nouvel objet Post vide
         $form = $this->createForm(PostsForm::class, $post);// Génère le formulaire à partir de la classe PostsForm
         $form->handleRequest($request); // Gère la soumission du formulaire (hydrate $post si soumis)
@@ -86,26 +87,36 @@ final class PostsController extends AbstractController
         ]);
     }
 
+    // Route pour ajouter ou retirer un article des favoris (via un formulaire POST)
     #[Route('/{id}/posts-favorite', name: 'app_posts_favorite', methods: ['POST'])]
     public function favorite(Posts $posts, Request $request, SessionInterface $session): Response
     {
+        // Je récupère la session en cours (celle de l'utilisateur connecté ou invité)
         $session = $request->getSession();
+
+        // Je récupère la liste actuelle des favoris depuis la session
+        // Si elle n'existe pas encore, je démarre avec un tableau vide
         $favorites = $session->get('favorite', []);
 
+        // Je récupère l'ID de l'article qu'on veut ajouter ou retirer
         $id = $posts->getId();
 
+        // Si l'article est déjà dans la liste des favoris
         if (in_array($id, $favorites)) {
-            // Retirer des favoris
+            // Je le retire de la liste
             $favorites = array_filter($favorites, fn($favId) => $favId != $id);
         } else {
-            // Ajouter aux favoris
+            // Sinon, je l'ajoute à la liste
             $favorites[] = $id;
         }
 
+        // Je mets à jour la session avec la nouvelle liste des favoris
         $session->set('favorites', $favorites);
 
+        // Je redirige l'utilisateur vers la page précédente
         return $this->redirect($request->headers->get('referer'));
     }
+
 
     // Route pour afficher un post individuel (détails d’un article)
     #[Route('/{id}', name: 'app_posts_show', methods: ['GET'])]
@@ -127,6 +138,8 @@ final class PostsController extends AbstractController
     #[Route('/{id}/modifier', name: 'app_posts_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Posts $post, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $form = $this->createForm(PostsForm::class, $post); // Crée le formulaire avec les données du post existant
         $form->handleRequest($request); // Gère la soumission
 
@@ -137,16 +150,18 @@ final class PostsController extends AbstractController
         }
 
         // Si le formulaire n’est pas soumis ou invalide, affiche la page avec le formulaire rempli
-        return $this->render('posts/edit.html.twig', [
+        return $this->render('posts/_form.html.twig', [
             'post' => $post,
             'form' => $form,
         ]);
     }
 
     // Route pour supprimer un article (méthode POST, souvent appelée depuis un formulaire invisible)
-    #[Route('/{id}', name: 'app_posts_delete', methods: ['POST'])]
+    #[Route('/{id}/supprimer', name: 'app_posts_delete', methods: ['POST'])]
     public function delete(Request $request, Posts $post, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         // Vérifie la validité du token CSRF pour sécuriser la suppression
         if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($post); // Marque l'objet pour suppression

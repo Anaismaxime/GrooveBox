@@ -22,7 +22,6 @@ body {
     background-color: var(--main-color);
     height: 100%;
 
-
     .container { /*Pour faire en sorte que mon footer soit en bas de page, méthode flex*/
         display: flex;
         flex-direction: column;
@@ -49,6 +48,7 @@ body {
         color: var(--main-color);
         text-decoration: none;
     }
+
     .icon {
         fill: var(--main-color);
     }
@@ -135,12 +135,9 @@ body {
         font-family: 'Raleway', sans-serif;
         font-size: 1rem;
     }
-
-
 }
 
 /*Style Page d'accueil - Hero*/
-
 .hero { /*Image*/
     text-align: center;
 
@@ -169,22 +166,29 @@ body {
     }
 }
 
-.carousel-container { /*Carrousel*/
-    overflow-x: auto;
-    scroll-behavior: smooth;
+.hero-image {
+    display: block;
+    max-width: 768px;
     width: 100%;
-    max-width: 100% !important;
-    margin: auto !important;
-    touch-action: pan-x;
+    margin: 0 auto;
+    box-shadow: 0 0 30px rgba(138, 43, 226, 0.6); /* violet néon */
+    border-radius: 12px;
+}
+
+
+.carousel-container { /*Carrousel*/
+    overflow: hidden;
+    width: 100%;
 
     .carousel {
         display: flex;
-        transition: transform 0.3s ease;
+        transition: transform 0.5s ease;
+        gap: 1rem;
 
         .slide {
-            min-width: 100% !important;
+            flex: 0 0 calc(100% / 3); /* 3 slides visibles */
             box-sizing: border-box;
-            padding:3rem;
+            padding: 3rem;
             text-align: center;
 
             .slide-content {
@@ -212,13 +216,12 @@ body {
                 a {
                     font-family: 'Bebas Neue';
                     font-size: 1.5rem;
-                    color:var(--dark-color);
+                    color: var(--dark-color);
                 }
             }
         }
     }
 }
-
 
 .artist-of-the-week { /*Artiste de la semaine*/
     padding-bottom: 40px;
@@ -231,9 +234,6 @@ body {
     }
 
     .artist-card {
-        img {
-            width: 100%;
-        }
 
         h3, a {
             text-align: center;
@@ -252,7 +252,13 @@ body {
             color: var(--dark-color);
         }
     }
+}
 
+.img-post {
+    width: 200px;
+    height: auto;
+    object-fit: cover; /* ou contain selon le rendu souhaité */
+    border-radius: 8px;
 }
 
 
@@ -311,6 +317,9 @@ body {
     }
 }
 
+.links .btn-groove a { /*1rem = taille minimale (mobile), 2vw = taille relative à la largeur de l’écran ,2rem = taille maximale (desktop)*/
+    font-size: clamp(1.2rem, 2vw, 2rem);
+}
 
 .contact { /*Formulaire de contact*/
     margin: 20px;
@@ -380,7 +389,7 @@ body {
     justify-content: center;
 }
 
-.favorite-button{
+.favorite-button {
     font-family: Bebas Neue, sans-serif;
     background-color: var(--dark-color);
     color: var(--main-color);
@@ -392,8 +401,6 @@ body {
     align-items: center;
     justify-content: center;
 }
-
-
 
 /*Style page index articles (actu et culture)*/
 
@@ -473,8 +480,8 @@ body {
 
 .post-image,
 .artist-image {
-    max-width: 100%;
-    height: 200px;
+    max-width: 300px;
+    height: 300px;
     object-fit: cover;
     border-radius: 1rem;
     margin-bottom: 1rem;
@@ -487,6 +494,20 @@ body {
     font-size: 1.5rem;
     margin: 1rem 0;
 }
+
+.artist-portrait {
+    display: block;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.artist-country {
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
 
 .contact-intro {
     text-align: center;
@@ -507,7 +528,6 @@ a {
 }
 
 /*Style CSS page incription et connexion */
-
 .register-form-section,
 .login-form-section,
 .reset-form-section {
@@ -516,7 +536,6 @@ a {
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-
 }
 
 .register-form-section .form-group {
@@ -535,11 +554,6 @@ a {
     font-size: 1rem;
     margin-top: 2rem;
     text-align: center;
-}
-
-.register-form-section p a {
-    color: black;
-    text-decoration: underline;
 }
 
 .login-form-section {
@@ -586,15 +600,14 @@ a {
     text-align: center;
 }
 
-.login-form-section p a {
+.login-form-section p a,
+.register-form-section p a {
     color: black;
     text-decoration: underline;
 }
 
 
 /*Style page affichage d'un article*/
-
-
 .article-content {
     font-family: 'Raleway', sans-serif;
     font-size: 1rem;
@@ -623,6 +636,7 @@ a {
 .article-content h2 {
     font-size: 2rem;
 }
+
 .article-content h3 {
     font-size: 1.5rem;
 }
@@ -643,8 +657,10 @@ a {
     padding-left: 2rem;
     margin-bottom: 1.5rem;
 }
+
 .article-cover {
-    max-width: 100%;
+    width: 500px;
+    max-width: 50%;
     height: auto;
     display: block;
     margin: 2rem auto;
@@ -652,7 +668,6 @@ a {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     object-fit: cover;
 }
-
 
 
 /*Style page ajout d'article */
@@ -683,7 +698,6 @@ a {
     display: block;
     font-family: 'Bebas Neue', cursive;
     font-size: 1.5rem;
-
 }
 
 .form-group input,
@@ -730,14 +744,6 @@ a {
     padding: 2rem 1rem;
 }
 
-/* Titre */
-.playlists-title {
-    font-family: 'Bebas Neue', 'sans-serif';
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 2rem;
-}
-
 /* Grille des playlists */
 .playlists-section {
     display: grid;
@@ -764,8 +770,8 @@ a {
 
 .playlist-image {
     width: 100%;
-    height: auto;
-    display: block;
+    height: 300px;
+    object-fit: cover;
     border-radius: 12px;
 }
 
@@ -797,7 +803,6 @@ a {
     display: flex;
     justify-content: center;
     margin-top: 1rem;
-
 }
 
 .btn {
@@ -817,6 +822,12 @@ a {
 
 .comments-container {
     margin: 2rem;
+
+    .co {
+        color: var(--dark-color);
+        font-family: Raleway sans-serif;
+    }
+
 }
 
 .comments {
@@ -848,8 +859,6 @@ a {
         font-weight: 400;
         text-align: center;
         padding-bottom: 1rem;
-
-
     }
 
     .user-name {
@@ -863,7 +872,6 @@ a {
         display: block;
         margin: 2rem auto;
         border-radius: 5px; /* optionnel pour arrondir l'image*/
-
     }
 
     a {
@@ -892,6 +900,7 @@ a {
             li {
                 display: flex;
                 justify-content: center;
+
                 a {
                     aspect-ratio: 1/1;
                     width: 140px;
@@ -922,66 +931,114 @@ a {
         }
     }
 
-
-
-    .faq {
-
-        h2{
-            font-family: "Bebas Neue", sans-serif;
-            font-size: 2rem;
-            font-weight: 400;
-            text-align: center;
-        }
-        .accordion { /* Conteneur principal des éléments d'accordéon (FAQ) */
-            max-width: 800px;
-            margin: 2rem auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-
-            .accordion-item {
-
-                .accordion-header { /* Boutons d’en-tête de chaque question FAQ */
-                    background-color: var(--purple-color);
-                    color: white;
-                    width: 100%;
-                    padding: 1rem;
-                    font-size: 1rem;
-                    border: none;
-                    text-align: left;
-                    cursor: pointer;
-                    border-radius: 5px;
-                    font-weight: bold;
-                    transition: background-color 0.3s ease;
-                }
-
-                .accordion-header:hover {
-                    background-color: var(--pink-color);
-                }
-
-
-                .accordion-content { /* Contenu caché des réponses de la FAQ, qui s’ouvre avec une animation */
-                    max-height: 0;
-                    overflow: hidden;
-                    background-color: var(--light-pink-color);
-                    transition: max-height 0.4s ease;
-                    border-radius: 5px;
-                    padding: 0 1rem;
-                }
-
-
-                .accordion-content p { /* Espacement interne des paragraphes dans le contenu FAQ */
-                    padding: 1rem 0;
-                }
-
-
-            }
-        }
-    }
 }
 
+.faq{
+    h2{
+        text-align: center;
+        font-size:2rem;
+        font-weight: 400;
+        font-family: 'Bebas Neue', sans-serif;
+    }
+}
+/* Conteneur général de l'accordéon */
+.accordion {
+    max-width: 800px;
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Résumé cliquable (bouton d'ouverture) */
+.accordion-header {
+    background-color: var(--purple-color);
+    color: white;
+    padding: 1rem;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.2rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    list-style: none; /* Supprime la flèche par défaut dans certains navigateurs */
+    transition: background-color 0.3s ease;
+}
+
+/* Changement de couleur quand l'accordéon est ouvert */
+details[open] > .accordion-header {
+    background-color: var(--pink-color);
+}
+
+/* Contenu révélé */
+.accordion-content {
+    background-color: var(--light-pink-color);
+    padding: 1rem;
+    border-radius: 0 0 0.5rem 0.5rem;
+    font-family: "Raleway", sans-serif;
+    color: var(--dark-color);
+}
+
+/*Admin*/
+.admin-menu {
+    background-color: #111;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px #0ff;
+}
+
+.admin-menu ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.admin-menu .menu-section {
+    margin-bottom: 2rem;
+    color: #0ff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+}
+
+.admin-menu a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    margin: 0.3rem 0;
+    transition: all 0.3s;
+    font-weight: bold;
+}
+
+.admin-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.admin-btn-wrapper {
+    flex: 1;
+}
+
+.admin-btn-wrapper a,
+.admin-btn-wrapper form,
+.admin-btn-wrapper button {
+    display: block;
+    width: 100%;
+}
+
+.btn-admin {
+    padding: 0.75rem 1.5rem;
+    font-weight: bold;
+    font-family: 'Bebas Neue', sans-serif;
+    background-color: var(--dark-color);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+
 /* TABLETTE */
-@media screen and (min-width: 768px) {
+@media (min-width: 768px){ {
 
     /* Artiste de la semaine : image plus petite */
     .artist-of-the-week .artist-card img {
@@ -997,6 +1054,7 @@ a {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
 .profil-links ul li a {
     width: 180px;
     height: 180px;
@@ -1004,12 +1062,13 @@ a {
 }
 
 /* DESKTOP */
-@media screen and (min-width: 1025px) {
+@media (min-width: 1028px) {
 
-    /* Carrousel de l'accueil : 3 slides visibles */
-    .carousel .slide {
-        min-width: 33.3333% !important;
-        max-width: 33.3333%;
+    /* 👇 desktop : 3 slides visibles */
+    @media screen and (min-width: 1024px) {
+        .slide {
+            flex: 0 0 33.3333%;
+        }
     }
 
     /* Liens House / Culture : 6 à la suite */
@@ -1024,9 +1083,14 @@ a {
         align-items: center;
     }
 
+    .burger {
+        display: none;
+    }
+
+
     /* Affichage direct des liens du menu */
     .navbar-mobile .sidebar {
-        display: flex !important;
+        display: flex;
         position: static;
         height: auto;
         background-color: transparent;
@@ -1050,7 +1114,12 @@ a {
         width: 200px;
         height: 200px;
     }
-}
+
+    .img-post {
+        width: 500px; /* ou une taille fixe adaptée */
+    }
+}}
+
 
 
 

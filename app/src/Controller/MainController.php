@@ -38,7 +38,7 @@ final class MainController extends AbstractController
 
         //Ici on récupère l'artiste de la semaine
         $artistOfTheWeek = $artistsRepository->findArtistOfTheWeek();
-        $lastPosts = $postsRepository->findDiapoLastThree();
+        $lastPosts = $postsRepository->findDiapoLastSix();
 
         return $this->render('main/index.html.twig', [
             'form' => $form->createView(),

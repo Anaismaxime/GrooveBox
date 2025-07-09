@@ -36,11 +36,11 @@ class PostsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findDiapoLastThree(): array
+    public function findDiapoLastSix(): array
     {
         return $this->createQueryBuilder('p')
             ->orderBy('p.createdAt', 'DESC')
-            ->setMaxResults(3)
+            ->setMaxResults(6)
             ->getQuery()
             ->getResult();
     }

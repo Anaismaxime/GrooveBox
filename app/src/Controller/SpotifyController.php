@@ -67,16 +67,22 @@ class SpotifyController extends AbstractController
         $form = $this->createForm(CommentsForm::class, $comment); // Creation form lié au comm
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) { //Si form soumis et valide
-            $comment->setUser($this->getUser()); //Associe user
-            $comment->setPlaylists($playlist); //Lis le comm à la playlist
-            $comment->setCreatedAt(new \DateTimeImmutable()); //Enregistre la date
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (!$this->getUser()) {
+                $this->addFlash('error', 'Vous devez être connecté pour commenter.');
+                return $this->redirectToRoute('app_login');
+            }
 
-            $entityManager->persist($comment); //Enregistre base de donnée
+            $comment->setUser($this->getUser());
+            $comment->setPlaylists($playlist);
+            $comment->setCreatedAt(new \DateTimeImmutable());
+
+            $entityManager->persist($comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('playlist_show', ['id' => $playlist->getSpotifyId()]); //redirection
+            return $this->redirectToRoute('playlist_show', ['id' => $playlist->getSpotifyId()]);
         }
+
         return $this->render('playlists/show.html.twig', [
             'tracks' => $tracks,
             'playlist' => $playlist,

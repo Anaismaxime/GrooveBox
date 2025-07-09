@@ -3,11 +3,43 @@
 {% block title %}Edit Playlists{% endblock %}
 
 {% block body %}
-    <h1>Edit Playlists</h1>
+    <section class="playlist-form-section">
+        <h1 class="title-new">Modifier une playlist Spotify</h1>
 
-    {{ include('playlists/_form.html.twig', {'button_label': 'Update'}) }}
+        <div class="form-container">
+            {{ form_start(form) }}
 
-    <a href="{{ path('app_playlists_index') }}">back to list</a>
+            {{ form_errors(form) }}
 
-    {{ include('playlists/_delete_form.html.twig') }}
+            <div class="form-group">
+                {{ form_label(form.spotifyId, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.spotifyId, {'attr': {'placeholder': 'ID ou URL Spotify', 'class': 'form-control'}}) }}
+                {{ form_errors(form.spotifyId) }}
+            </div>
+
+            <div class="form-group checkbox-group">
+                {{ form_label(form.isPublic, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.isPublic, {'attr': {'class': 'form-checkbox'}}) }}
+                {{ form_errors(form.isPublic) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.genre, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.genre, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.genre) }}
+            </div>
+
+            <div class="form-submit">
+                {{ form_widget(form.submit, {'attr': {'class': 'btn-black'}}) }}
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </section>
+
+    {{ include('genres/genre_form.html.twig', {'button_label': 'Update'}) }}
+
+    <div class="form-submit">
+        <a href="{{ path('app_playlists_index') }}" class="btn btn-grey">← Retour à la liste</a>
+    </div>
 {% endblock %}

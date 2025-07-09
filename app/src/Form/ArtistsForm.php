@@ -10,10 +10,13 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ArtistsForm extends AbstractType
 {
@@ -22,6 +25,17 @@ class ArtistsForm extends AbstractType
         $builder
             ->add('name', TextareaType::class, [
                 'label' => 'Nom de l\'Artiste',
+                'constraints' => [
+                    new NotBlank(
+                        message:'Le nom de l\'artiste est obligatoire'
+                    ),
+                    new Length([
+                        'min' => 3,
+                        'max' => 100,
+                        'minMessage' => 'Le nom de l\'artiste doit faire au moins 3 caractères',
+                        'maxMessage' => 'Le nom de l\'artiste doit faire moins de 100 caractères'
+                    ])
+                ]
             ])
             ->add('biography', TextareaType::class, [
                 'label' => 'Biographie',
@@ -30,8 +44,9 @@ class ArtistsForm extends AbstractType
                     'class' =>  'form-control ckeditor'
                 ]
             ])
-            ->add('country', options: [
+            ->add('country', TextType::class, [
                 'label' => 'Pays',
+                'required' => true,
             ])
             ->add('urlSoundcloud', UrlType::class, [
                 'label' => 'Url Soundcloud',
@@ -72,6 +87,9 @@ class ArtistsForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Artists::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'artists_item',
         ]);
     }
 }

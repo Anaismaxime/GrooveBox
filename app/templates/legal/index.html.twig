@@ -1,20 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LegalController!{% endblock %}
+{% block title %}Politique de confidentialité{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <main role="main" aria-labelledby="privacy-title">
+        <h1 id="privacy-title">Politique de confidentialité</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        <p>
+            Ce site utilise l’API officielle de Spotify pour afficher vos playlists.
+            Nous récupérons temporairement un jeton d’accès (access token) pour accéder à vos données musicales.
+            Ce token est stocké uniquement en mémoire pendant votre session de navigation, et n’est jamais enregistré en base de données.
+        </p>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/anais/GrooveBox/GrooveBoxSymfony/app/src/Controller/LegalController.php</code></li>
-        <li>Your template at <code>/home/anais/GrooveBox/GrooveBoxSymfony/app/templates/legal/index.html.twig</code></li>
-    </ul>
-</div>
+        <p>
+            Aucune donnée personnelle (email, nom, etc.) n’est collectée ou conservée par notre site.
+            Les contenus musicaux sont fournis et hébergés directement par Spotify via leur lecteur intégré (iframe).
+        </p>
+
+        <p>
+            Vous pouvez à tout moment vous déconnecter ou révoquer l'accès depuis votre compte Spotify.
+        </p>
+    </main>
+    <a href="{{ path('app_main') }}" class="btn-return" aria-label="Retour à la page d’accueil">← Retour</a>
+
 {% endblock %}
+
